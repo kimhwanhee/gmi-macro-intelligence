@@ -1,0 +1,129 @@
+{
+  "USA": {
+    "verified_as_of": "2026-10-12",
+    "people": [
+      {
+        "office": "head_of_state",
+        "name": "Donald Trump",
+        "term_start": "2025-01-20",
+        "source": "https://www.whitehouse.gov/presidential-actions/2026/10/columbus-day-2026/",
+        "wikidata": "Q22686",
+        "elected_on": "2024-11-05",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Official_Presidential_Portrait_of_President_Donald_J._Trump_(2025).jpg",
+        "photo_credit": "Photo: The White House / Wikimedia Commons",
+        "photo_source": "https://commons.wikimedia.org/wiki/File:Official_Presidential_Portrait_of_President_Donald_J._Trump_(2025).jpg"
+      },
+      {
+        "office": "foreign_minister",
+        "name": "Marco Rubio",
+        "term_start": "2025-01-21",
+        "source": "https://history.state.gov/departmenthistory/people/rubio-marco"
+      },
+      {
+        "office": "commerce_minister",
+        "name": "Howard Lutnick",
+        "source": "https://www.commerce.gov/about/leadership/howard-lutnick"
+      },
+      {
+        "office": "defense_minister",
+        "name": "Pete Hegseth",
+        "term_start": "2025-01-25",
+        "source": "https://www.defense.gov/About/Biographies/Biography/Article/4040890/hon-pete-hegseth/"
+      }
+    ]
+  },
+  "CHN": {
+    "verified_as_of": "2026-10-12",
+    "people": [
+      {
+        "office": "head_of_state",
+        "name": "Xi Jinping",
+        "source": "https://www.fmprc.gov.cn/mfa_eng/xw/fyrbt/202610/t20261009_12037462.html",
+        "wikidata": "Q15031",
+        "term_start": "2013-03-14",
+        "elected_on": "2023-03-10",
+        "election_source": "https://english.www.gov.cn/news/topnews/202303/10/content_WS640a9f49c6d0a757729e7ee1.html",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinese_President_Xi_May_2024.jpg",
+        "photo_credit": "Photo: kremlin.ru / Wikimedia Commons · CC BY 4.0",
+        "photo_source": "https://commons.wikimedia.org/wiki/File:Chinese_President_Xi_May_2024.jpg"
+      },
+      {
+        "office": "foreign_minister",
+        "name": "Wang Yi",
+        "source": "https://english.www.gov.cn/statecouncil/202008/12/content_WS5f334b75c6d029c1c26379c3.html"
+      },
+      {
+        "office": "defense_minister",
+        "name": "Dong Jun",
+        "source": "https://english.www.gov.cn/statecouncil/202008/12/content_WS5f334b75c6d029c1c26379c3.html"
+      },
+      {
+        "office": "commerce_minister",
+        "name": "Wang Wentao",
+        "source": "https://english.www.gov.cn/statecouncil/202008/12/content_WS5f334b75c6d029c1c26379c3.html"
+      }
+    ]
+  },
+  "RUS": {
+    "verified_as_of": "2026-10-12",
+    "people": [
+      {
+        "office": "head_of_state",
+        "name": "Vladimir Putin",
+        "source": "https://kremlin.ru/structure/president",
+        "wikidata": "Q7747",
+        "term_start": "2024-05-07",
+        "elected_on": "2024-03-17",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vladimir_Putin_official_portrait.jpg",
+        "photo_credit": "Photo: kremlin.ru / Wikimedia Commons · CC BY 4.0",
+        "photo_source": "https://commons.wikimedia.org/wiki/File:Vladimir_Putin_official_portrait.jpg"
+      }
+    ]
+  },
+  "GBR": {
+    "verified_as_of": "2026-10-12",
+    "people": [
+      {
+        "office": "head_of_government",
+        "name": "Andy Burnham",
+        "term_start": "2026-07-20",
+        "source": "https://www.gov.uk/government/ministers/prime-minister",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Prime_Minister_Andy_Burnham_portrait.jpg",
+        "photo_credit": "Photo: Alecsandra Dragoi / No 10 Downing Street · OGL v3",
+        "photo_source": "https://commons.wikimedia.org/wiki/File:Prime_Minister_Andy_Burnham_portrait.jpg"
+      },
+      {
+        "office": "foreign_minister",
+        "name": "Ed Miliband",
+        "term_start": "2026-07-20",
+        "source": "https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs"
+      },
+      {
+        "office": "commerce_minister",
+        "name": "Jonathan Reynolds",
+        "source": "https://www.gov.uk/government/news/ministerial-appointments-july-2026"
+      },
+      {
+        "office": "defense_minister",
+        "name": "Wes Streeting",
+        "source": "https://www.gov.uk/government/news/ministerial-appointments-july-2026"
+      }
+    ]
+  },
+  "KOR": {
+    "verified_as_of": "2026-10-12",
+    "people": [
+      {
+        "office": "head_of_state",
+        "name": "Lee Jae-myung",
+        "source": "https://www.president.go.kr/index.do",
+        "term_start": "2025-06-04",
+        "elected_on": "2025-06-03",
+        "election_source": "https://www.korea.net/NewsFocus/policies/view?articleId=272644&koreanId=272630",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lee_Jae_Myung_portrait.jpg",
+        "photo_credit": "Photo: The White House / Wikimedia Commons · Public Domain",
+        "photo_source": "https://commons.wikimedia.org/wiki/File:Lee_Jae_Myung_portrait.jpg"
+      }
+    ]
+  }
+}

@@ -14,7 +14,7 @@ ROOT=Path(__file__).resolve().parent
 PUBLIC_MODE = os.getenv('GMI_PUBLIC_MODE', '0').strip() == '1'
 ADMIN_TOKEN = os.getenv('GMI_ADMIN_TOKEN','').strip()
 # Public deployments must never serve arbitrary project files (including source, env, database).
-PUBLIC_ASSETS = {'/','/index.html','/styles.css','/app.js','/country-catalog.js','/enhancements.js'}
+PUBLIC_ASSETS = {'/','/index.html','/styles.css','/app.js','/country-catalog.js','/enhancements.js','/refinements.js'}
 CACHE={}
 
 # ISO 3166-1 country/territory directory, plus Kosovo.
@@ -91,11 +91,34 @@ class Handler(SimpleHTTPRequestHandler):
             try: limit=int(params.get('limit',['350'])[0])
             except (ValueError,TypeError): limit=350
             return self.send_json({'events':auto_intel.list_events(limit,c or None),'status':{**auto_intel.status(),'public_mode':PUBLIC_MODE}})
+        if u.path=='/api/officials':
+            c=parse_qs(u.query).get('country',[''])[0].upper()
+            if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
+            return self.send_json(research_api.officials(c))
+        if u.path=='/api/macro-bundle':
+            c=parse_qs(u.query).get('country',[''])[0].upper()
+            if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
+            ids=['NY.GDP.MKTP.KD.ZG','FP.CPI.TOTL.ZG','SL.UEM.TOTL.ZS','NE.TRD.GNFS.ZS',
+                 'NE.EXP.GNFS.ZS','BX.KLT.DINV.WD.GD.ZS','BN.CAB.XOKA.GD.ZS','GC.XPN.TOTL.GD.ZS']
+            iso=CATALOG[c]['iso2']
+            # Single request for eight indicators, World Bank API v2 multi-indicator support.
+            url='https://api.worldbank.org/v2/country/'+iso+'/indicator/'+';'.join(ids)+'?'+urlencode({'format':'json','per_page':'250','source':'2'})
+            try:
+                raw=retrieve(url,('macro-bundle',iso),60*60*6)
+                result={code:[] for code in ids}
+                for v in raw[1] if isinstance(raw,list) and len(raw)>1 and isinstance(raw[1],list) else []:
+                    code=v.get('indicator',{}).get('id','')
+                    if code in result and v.get('value') is not None:
+                        result[code].append({'date':str(v.get('date','')),'value':v['value']})
+                for rows in result.values(): rows.sort(key=lambda x:x['date'],reverse=True)
+                return self.send_json({'country':c,'indicators':result,'source':'World Bank WDI','updated_at':time.time()})
+            except Exception:
+                return self.send_json({'country':c,'indicators':{},'error':'source_temporarily_unavailable','loading':False},502)
         if u.path in ('/api/leader','/api/brief','/api/diplomacy'):
             c=parse_qs(u.query).get('country',[''])[0].upper()
             if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
             if u.path=='/api/leader':return self.send_json(research_api.leader(c))
-            if u.path=='/api/brief':return self.send_json(research_api.brief(c))
+            if u.path=='/api/brief':return self.send_json(research_api.brief(c,parse_qs(u.query).get('lang',['ko'])[0]))
             return self.send_json(research_api.diplomacy(c))
         if u.path=='/api/health':
             return self.send_json({'status':'ok','public_mode':PUBLIC_MODE,'data_sources':{'macro':'World Bank','news':'GDELT DOC 2.0'},'note':'External APIs require Internet access.'})
