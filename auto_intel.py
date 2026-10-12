@@ -12,6 +12,7 @@ import re
 import sqlite3
 import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import unicodedata
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -268,12 +269,13 @@ def collect_once():
     set_meta('last_attempt',dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds'))
     items=[];fail=[];ok=[]
     try:
-        for name,url,kind in FEEDS:
-            try:
-                rows=parse_feed(fetch(url),name,kind)
-                items.extend(rows[:40]);ok.append(f'{name}: {len(rows)}')
-            except Exception as e:fail.append(name+': '+str(e)[:120])
-        for topic,query in GDELT_QUERIES.items():
+        # Fetch different providers concurrently to avoid 9 x sequential network timeouts.
+        def source_job(feed):
+            name,url,kind=feed
+            try:return (name,parse_feed(fetch(url),name,kind)[:40],None)
+            except Exception as exc:return (name,[],str(exc)[:120])
+        def gdelt_job(topic,query):
+            name='GDELT '+topic
             try:
                 u='https://api.gdeltproject.org/api/v2/doc/doc?'+urlencode({'query':query,'mode':'artlist','format':'json','maxrecords':'40','timespan':'2days','sort':'datedesc'})
                 data=json.loads(fetch(u));rows=[]
@@ -284,8 +286,15 @@ def collect_once():
                     date=seen[:4]+'-'+seen[4:6]+'-'+seen[6:8] if len(seen)>=8 else ''
                     rows.append({'title':title,'snippet':'','url':link,'date':date,'source':str(a.get('domain','GDELT'))[:120],
                                  'source_kind':'aggregator'})
-                items.extend(rows);ok.append(f'GDELT {topic}: {len(rows)}')
-            except Exception as e:fail.append('GDELT '+topic+': '+str(e)[:120])
+                return (name,rows,None)
+            except Exception as exc:return (name,[],str(exc)[:120])
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            futures=[pool.submit(source_job,f) for f in FEEDS]
+            futures += [pool.submit(gdelt_job,k,v) for k,v in GDELT_QUERIES.items()]
+            for fut in as_completed(futures):
+                name,rows,error=fut.result()
+                if error:fail.append(name+': '+error)
+                else:items.extend(rows);ok.append(f'{name}: {len(rows)}')
         # Prefer source links. Duplicate URL/title group is removed in SQLite.
         stored,_=process_articles(items)
         set_meta('last_success',dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds') if ok else get_meta().get('last_success',''))

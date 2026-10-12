@@ -8,12 +8,13 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 import json, os, sys, time, re, threading, secrets
 import auto_intel
+import research_api
 
 ROOT=Path(__file__).resolve().parent
 PUBLIC_MODE = os.getenv('GMI_PUBLIC_MODE', '0').strip() == '1'
 ADMIN_TOKEN = os.getenv('GMI_ADMIN_TOKEN','').strip()
 # Public deployments must never serve arbitrary project files (including source, env, database).
-PUBLIC_ASSETS = {'/','/index.html','/styles.css','/app.js','/country-catalog.js'}
+PUBLIC_ASSETS = {'/','/index.html','/styles.css','/app.js','/country-catalog.js','/enhancements.js'}
 CACHE={}
 
 # ISO 3166-1 country/territory directory, plus Kosovo.
@@ -90,6 +91,12 @@ class Handler(SimpleHTTPRequestHandler):
             try: limit=int(params.get('limit',['350'])[0])
             except (ValueError,TypeError): limit=350
             return self.send_json({'events':auto_intel.list_events(limit,c or None),'status':{**auto_intel.status(),'public_mode':PUBLIC_MODE}})
+        if u.path in ('/api/leader','/api/brief','/api/diplomacy'):
+            c=parse_qs(u.query).get('country',[''])[0].upper()
+            if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
+            if u.path=='/api/leader':return self.send_json(research_api.leader(c))
+            if u.path=='/api/brief':return self.send_json(research_api.brief(c))
+            return self.send_json(research_api.diplomacy(c))
         if u.path=='/api/health':
             return self.send_json({'status':'ok','public_mode':PUBLIC_MODE,'data_sources':{'macro':'World Bank','news':'GDELT DOC 2.0'},'note':'External APIs require Internet access.'})
         if u.path=='/api/worldbank':

@@ -1,70 +1,53 @@
-# GMI 인터넷 배포 — Railway 가이드
+# GMI v3 — 글로벌 거시경제·지정학 인텔리전스 | GitHub + Railway 배포
 
-## 구성
-- `Dockerfile`: Railway가 Python 3.12 애플리케이션을 실행하는 설정
-- `server.py`: 공개 서비스용 HTTP/API 서버 (`PORT`, `0.0.0.0` 지원)
-- `auto_intel.py`: 외교·국방·통상 뉴스/공식 피드를 기본 60분 간격으로 수집
-- `index.html`, `app.js`, `styles.css`, `country-catalog.js`: 지도/국가 인터페이스
-- `country-catalog.json`: 250개 국가·지역 기본 정보
+## 이번 업데이트
 
-## 1. GitHub에 업로드
-1. [GitHub](https://github.com)에 로그인 → **New repository** → 이름 `gmi-macro-intelligence` (공개 또는 비공개).
-2. 생성한 저장소의 **Add file → Upload files**를 눌러 이 폴더 안의 모든 배포 파일을 업로드합니다. ZIP 자체만 업로드하면 서버가 실행되지 않습니다.
-3. **Commit changes**를 누릅니다.
+- **지도 사건 분류색**: 외교(청색), 국방·안보(주황색), 통상(녹색), 정치(보라색) 등. 외곽선은 기존 변화 상태 필터 색이며, 자동 수집 뉴스에 대해서는 위험도 악화/개선을 단정하지 않습니다.
+- **지도 화면 이탈 방지**: 수평 3회 반복된 지도의 유효 범위와 지도 높이를 기준으로 드래그·줌을 제한합니다.
+- **한국어 / 영어 / 간체 중국어**: 언어 메뉴를 제공합니다. 주요 메뉴, 국가별 분석, 지도, 브리핑, 외교 업무 화면에 적용됩니다. 비교 분석, 이전에 구현된 일부 관리/상세 메시지는 아직 한국어인 부분이 있습니다.
+- **국가원수/정부수반 정보**: 공개 Wikidata의 해당 국가 직책과 인물 데이터를 조회해 이름, 인물 이미지, 직책의 시작일(확인 가능한 경우)을 표시합니다. 출처 링크를 제공합니다. **당선일은 검증되지 않으면 공란**으로 남기며, 취임일과 혼동하지 않습니다. 데이터 제공처 차단/결측 시 인물 정보를 표시하지 않습니다.
+- **TradingView 차트**: 주요 국가의 일부 지수 심볼을 매핑하고 국가 화면 안에 Advanced Chart 위젯을 삽입합니다. 기간은 **1시간 / 4시간 / 일봉 / 주봉**이며, 사용자가 거래소:심볼을 직접 등록할 수도 있습니다. 일부 매핑은 거래소 공급 상황에 따라 변경/접속 실패할 수 있습니다. 250개 국가에 자동으로 지수가 존재한다고 가정하지 않습니다.
+- **고위급 외교 테이블**: 국가원수, 외교장관, 통상·상무장관, 국방장관 보도만 분류해 원문·보도일과 함께 국가별로 조회합니다. 선택적 AI를 연결하면 기사 **제목에서 명시된 범위에 한해** 사람·상대방·방문국·일정을 구조화하고 3개 언어로 제목 요약을 제공합니다. 보도일은 회담일이 아닙니다. 자동 기록을 확정 방문 일정으로 표시하지 않습니다.
+- **경제/정치/국방/외교 일일 브리핑**: 국가 선택 시 분야별 최근 뉴스 최대 2건을 서버가 수집합니다. OpenAI API 키를 등록하면 기사 제목 및 RSS 요약에 한정된 한국어·영어·중국어 분석과 타국 파급 가능성(가설)을 생성합니다. 기사 전문을 읽거나 사실을 독립 검증한 것은 아닙니다. 기사 미확보 시 빈 상태로 표시합니다.
+- **성능**: 여러 뉴스 피드를 동시에 확인하고, 경제/지도자/브리핑 결과를 SQLite 캐시에 저장하며, 이후 조회는 오래된 데이터를 먼저 보여주고 백그라운드 갱신합니다. 사이트 첫 방문·데이터 공급 지연 시 대기할 수 있습니다.
 
-## 2. Railway에 배포
-1. [Railway](https://railway.com) 로그인 → **New Project → Deploy from GitHub repo**.
-2. 위에서 만든 `gmi-macro-intelligence` 저장소 선택 → 배포.
-3. 프로젝트 서비스 **Settings → Networking → Generate Domain**에서 외부 접속 URL을 생성.
-4. **Settings → Healthcheck Path**가 설정 가능한 경우 `/api/health`를 입력.
-5. **Settings → Deploy**에서 Start Command는 비워 두어 Dockerfile의 `CMD`가 사용되도록 합니다.
+## 이전 배포판을 Railway에서 업데이트하는 방법
 
-## 3. 데이터 영구 보관 — 반드시 설정
-Railway 서비스에서 **Volumes → Add Volume**, mount path를 정확히 `/data`로 지정합니다.
-이것을 누락하면 뉴스 자동 수집 데이터베이스(SQLite)가 재배포·서버 재시작 시 초기화될 수 있습니다.
-이 앱은 **1개 복제본**으로 운영하세요. 여러 복제본으로 늘리면 뉴스 수집이 중복 실행될 수 있습니다.
+1. ZIP을 내려받은 뒤 완전히 **압축을 해제**합니다.
+2. [GitHub 저장소](https://github.com/kimhwanhee/gmi-macro-intelligence)의 맨 위 화면에서 **Add file → Upload files**를 선택합니다.
+3. 압축 해제한 폴더 자체나 ZIP이 아니라 **폴더 안의 파일 전체**를 업로드합니다. `Dockerfile`, `server.py`, `index.html` 등이 GitHub 최상위에 놓여야 합니다.
+4. 기존 파일을 덮어쓰는 변경 사항과 새 파일 `enhancements.js`, `research_api.py`가 포함되어 있는지 확인하고 **Commit changes**를 누릅니다.
+5. Railway 프로젝트를 열어 서비스의 **Deployments** 탭에서 새 배포가 **SUCCESS/ACTIVE**인지 확인합니다. 기존 공개 도메인을 그대로 사용할 수 있습니다.
+6. 브라우저에서 **Ctrl + Shift + R**로 강력 새로고침합니다. `/api/health` 주소에서 서버 상태를 확인합니다.
 
-## 4. Environment Variables (Railway 서비스 → Variables)
-필수는 Dockerfile에 기본값으로 제공됩니다. 다음은 필요에 따라 설정하세요.
+## Railway 설정
 
-```
+서비스 Variables (Dockerfile 기본값이 있으므로 필요시 확인):
+
+```text
 GMI_PUBLIC_MODE=1
 GMI_DB_PATH=/data/gmi_intelligence.sqlite3
 GMI_REFRESH_MINUTES=60
-GMI_AI_MAX_PER_RUN=12
 ```
 
-- `OPENAI_API_KEY`: 선택. 유효한 OpenAI API 키가 있으면 일부 새 기사에 대해 AI 분류; 없으면 키워드 분류만 합니다. **절대 GitHub 파일이나 브라우저 코드에 넣지 마세요.**
-- `GMI_ADMIN_TOKEN`: 선택. 충분히 긴 비밀 임의 문자열을 Railway Variables에 설정하면 관리자만 `POST /api/intel/refresh`를 수동 실행할 수 있습니다. 일반 사용자의 수동 수집 요청은 차단됩니다.
-- 기본 설정에서는 자동 수집 자체에 OpenAI API 비용이 들지 않습니다. OpenAI API 키를 설정할 경우 API 비용이 발생할 수 있습니다.
-- `PORT`는 Railway가 자동 부여하며 따로 지정하지 않아도 됩니다.
+- Railway **Volume의 Mount Path를 `/data`**로 설정해야 SQLite 데이터/브리핑 캐시가 영구 보존됩니다.
+- Railway의 제공 `PORT` 환경변수는 자동 사용하므로 직접 설정하지 않습니다.
+- **OpenAI 기반 자동 뉴스 요약 및 외교 인물/일정 추출을 원하면** `OPENAI_API_KEY`를 Railway의 **Variables**에만 입력하세요. 브라우저/코드/GitHub에 넣지 마세요. API 요금이 발생할 수 있습니다.
+- API 키가 없으면 뉴스·시장·Wikidata 조회 및 기본 사건 분류는 계속 작동하지만 **자동 다국어 AI 요약과 깊이 있는 파급 분석은 제공하지 않습니다.**
+- 서버 설정에서 Volume과 단일 복제본을 권장합니다. 고빈도 공개 서비스는 별도의 인증·호출 제한·운영 모니터링이 필요합니다.
 
-## 5. 웹사이트 확인
-- `https://발급된도메인/` : 지도 및 국가별 페이지
-- `https://발급된도메인/api/health` : 서버 연결 확인
-- `https://발급된도메인/api/intel/status` : 자동 수집 상태
-- `https://발급된도메인/api/intel/events` : 저장된 뉴스 사건
+## 확인용 API
 
-최초 수집은 여러 외부 뉴스 API를 순차적으로 호출하므로 시간이 걸릴 수 있습니다. 앱은 수집 결과가 비어도 지도 UI가 동작합니다.
+- `/api/health` — 서버
+- `/api/intel/status` — 뉴스 수집 상태
+- `/api/intel/events` — 자동 분류 사건
+- `/api/leader?country=CHN` — 공개 지도자 데이터(비동기, 최초 `loading: true` 가능)
+- `/api/diplomacy?country=CHN` — 고위급 외교 보도 표
+- `/api/brief?country=CHN` — 경제·정치·국방·외교 대표 기사(비동기)
 
-## 6. 관리자 수동 갱신 (선택)
-`GMI_ADMIN_TOKEN`을 설정했다면 터미널에서만 아래 예시처럼 실행합니다. 토큰은 실제 값으로 교체하세요.
+**주의:** 전 세계 주요 인사의 확정 방문·회담 예정은 정부 공식 발표를 나라별로 검증해야 합니다. 현재 판에는 발표 제목 기반 자동 추출과 출처 확인이 포함되어 있으나 **전 세계 모든 정상 일정을 보증하거나 공식 확인을 자동 확정하는 기능은 없습니다.** 주가지수는 TradingView 제공 범위/시차/계약 정책에 따릅니다. 정치·안보 파급 경로는 가설이며 인과관계의 증명이 아닙니다.
 
-```
-curl -X POST -H "X-GMI-Admin-Token: YOUR_SECRET_TOKEN" https://YOUR_DOMAIN/api/intel/refresh
-```
+## 로컬 실행
 
-**브라우저 JavaScript 또는 소스코드에 토큰을 넣지 마세요.** Railway 로그나 스크린샷에도 공개하지 마세요.
-
-## 공개 운영 주의
-- 공개 배포판은 기본 시연 사건 24건을 **표시하지 않습니다**. 서버에서 자동 수집된 사건만 자동으로 나타납니다. 수집 전에는 지도 사건 마커가 비어 있을 수 있습니다.
-- 기사 분류는 확인된 사실/방문 일정 확정이 아니라 미검증 보도입니다.
-- 뉴스 데이터 출처(GDELT, RSS)의 사용 조건, 호출 제한 및 링크 처리 정책을 확인하세요.
-- 국가별 주식 시세 실시간 제공·공식 방문 일정 자동 확정은 구현되어 있지 않습니다.
-- 브라우저에서 직접 등록한 사건/일정은 **그 사용자의 브라우저 로컬 저장소에만** 저장됩니다. 공개 사용자 모두가 공유하는 데이터베이스로 업로드되지는 않습니다.
-- 로컬 PC의 사건/일정 역시 도메인이 바뀌면 자동으로 새 사이트로 이관되지 않습니다.
-- 기본 내장 SimpleHTTPRequestHandler는 개인용 시험·소규모 데모에 초점을 맞췄습니다. 접속자가 늘어날 경우 로그인, rate limiting, 역방향 프록시, 데이터 사용량 모니터링을 별도로 보강해야 합니다.
-- 인프라와 API 과금은 Railway/OpenAI 계약 및 사용량에 따릅니다.
-
-## 로컬 테스트
-`start_local.bat`을 실행하거나 `python server.py`를 실행한 후 http://localhost:8765 에 접속하세요.
+`start_local.bat` 또는 `python server.py` 실행 → `http://localhost:8765` 접속.
+별도 Python 라이브러리 설치는 필요 없습니다(Python 3.11+ 권장).
