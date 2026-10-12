@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0e13" />
+  <meta name="description" content="국가별 거시경제, 외교 일정, 금융시장, 지정학적 사건을 한 곳에서 분석하는 인터랙티브 세계지도 플랫폼" />
+  <title>GMI — Global Macro Intelligence</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="logo-row"><span class="brand-mark">gmi<span>.</span></span><span class="version-tag">RESEARCH TERMINAL</span></div>
+        <h1>Global Macro<br/><span>Intelligence</span></h1>
+        <p>World Markets · Diplomacy · Geopolitics</p>
+      </div>
+      <div class="sidebar-scroll">
+        <div class="section-title top-title"><span><strong id="visibleEventCount">0</strong> MONITORED EVENTS</span><button id="resetFilters" class="text-action">초기화 ↺</button></div>
+        <label class="search-field"><span>⌕</span><input id="eventSearch" placeholder="국가, 지역, 이슈 검색" autocomplete="off" aria-label="사건 검색"/><kbd>/</kbd></label>
+        <div class="country-finder"><div class="filter-heading">국가·지역 검색 <span>250 ENTITIES</span></div><label class="search-field"><span>◎</span><input id="countryQuickSearch" autocomplete="off" placeholder="미얀마, Myanmar, MMR…" aria-label="국가 검색"/></label><div id="quickCountryResults"></div><button class="browse-country-button" id="browseCountries">전체 250개 국가·지역 보기 ↗</button></div>
+        <div class="filter-section"><div class="filter-heading">사건 유형 <span>EVENT TYPE</span></div><div id="typeFilters" class="check-list"></div></div>
+        <div class="filter-section"><div class="filter-heading">변화 상태 <span>STATUS</span></div><div id="statusFilters" class="check-list two-cols"></div></div>
+        <div class="filter-section"><div class="filter-heading">관심 지역 <span>REGION</span></div><div id="regionFilters" class="check-list two-cols"></div></div>
+        <div class="sidebar-divider"></div>
+        <div class="section-title"><span>TRACKED EVENTS</span><span id="filteredCounter" class="soft-count">0개</span></div>
+        <div id="sidebarEvents" class="event-items"></div>
+      </div>
+      <div class="sidebar-bottom"><span class="pulse-dot"></span><span id="intelSidebarStatus">자동 수집 서버 연결 확인 중</span><button id="mobileClose" class="mobile-close" aria-label="사이드바 닫기">×</button></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <button id="mobileMenu" class="icon-button mobile-menu" aria-label="필터 열기">☰</button>
+        <div class="crumb">GLOBAL OVERVIEW <span class="crumb-sep">/</span> <span id="currentViewLabel">세계 상황판</span></div>
+        <nav class="topnav" aria-label="메인 메뉴">
+          <button class="nav-link active" data-page="map">세계지도</button>
+          <button class="nav-link" data-page="countries">국가 목록</button>
+          <button class="nav-link" data-page="calendar">외교 일정</button>
+          <button class="nav-link" data-page="compare">국가 비교</button>
+          <button class="nav-link" data-page="news">뉴스 팔로업</button>
+          <button class="nav-link" data-page="intel">자동 인텔리전스</button>
+        </nav>
+        <div class="header-actions"><button class="icon-button" id="addEventButton" title="자동 수집 확인" aria-label="자동 수집 확인">↻</button><button class="icon-button" id="toggleHelp" title="도움말" aria-label="도움말">?</button></div>
+      </header>
+      <div id="mapStage" class="map-stage">
+        <svg id="worldMap" viewBox="975 0 1700 905" role="img" aria-label="국가 및 사건을 클릭할 수 있는 인터랙티브 세계지도" preserveAspectRatio="xMidYMid meet">
+          <rect x="-1800" y="-1000" width="7200" height="4000" fill="#141920"></rect>
+          <g id="gridLines"></g>
+          <g id="mapGeography"><g id="mapA">__WORLD_PATHS__</g><g id="mapB" transform="translate(1800 0)">__WORLD_PATHS__</g><g id="mapC" transform="translate(3600 0)">__WORLD_PATHS__</g></g>
+          <g id="countryFallbackPins"><g>__COUNTRY_PINS__</g><g transform="translate(1800 0)">__COUNTRY_PINS__</g><g transform="translate(3600 0)">__COUNTRY_PINS__</g></g>
+          <g id="oceanLabels"></g>
+          <g id="mapMarkers"></g>
+        </svg>
+        <div id="mapTooltip" class="map-tooltip hidden"></div>
+        <div class="map-bottom-left"><div class="map-eyebrow">GLOBAL MACRO INTELLIGENCE <span class="eyebrow-line"></span> WORLD VIEW</div><div class="map-heading">세계를 읽는 새로운 시각<span class="period">.</span></div><div class="map-description">시장 · 경제 · 외교 · 국방 · 통상을 하나의 지도에서</div><span class="demo-warning" id="mapModeNotice">● 자동 수집된 사건도 최초에는 미검증 보도입니다.</span></div>
+        <div class="map-top-left"><span class="live-indicator"></span> GLOBAL MONITORING <span class="muted-vline">│</span> <span id="worldClock">UTC —</span></div>
+        <div class="map-controls"><button id="zoomIn" aria-label="확대" title="지도 확대">＋</button><button id="zoomOut" aria-label="축소" title="지도 축소">－</button><button id="resetMap" aria-label="지도 초기화" title="지도 초기화">⤢</button></div>
+        <div class="map-legend"><span><i class="legend-dot worsening"></i>악화 (예시)</span><span><i class="legend-dot unchanged"></i>변화 없음</span><span><i class="legend-dot improving"></i>개선 (예시)</span><span><i class="legend-dot monitoring"></i>추적 중</span></div>
+        <div class="map-hint">드래그해 이동 · 휠로 확대 · 국가/마커를 클릭</div>
+      </div>
+      <section class="insight-drawer hidden" id="insightDrawer" aria-label="상세 분석 패널"><div id="insightContent"></div></section>
+      <section id="workspace" class="workspace hidden" aria-label="분석 작업공간"><div class="workspace-inner" id="workspaceContent"></div></section>
+      <div class="modal-backdrop hidden" id="modalBackdrop"><div class="modal" id="modalContent" role="dialog" aria-modal="true"></div></div>
+      <div class="toast hidden" id="toast" role="status"></div>
+    </main>
+  </div>
+  <script src="./country-catalog.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
