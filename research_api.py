@@ -9,15 +9,6 @@ import xml.etree.ElementTree as ET
 import auto_intel
 
 COUNTRIES=auto_intel.COUNTRIES
-
-from pathlib import Path
-_OFFICIAL_SNAPSHOTS=json.loads((Path(__file__).resolve().parent/'verified-officials.json').read_text(encoding='utf-8'))
-
-def officials(iso):
-    row=_OFFICIAL_SNAPSHOTS.get(iso)
-    if not row: return {'country':iso,'people':[],'verified_as_of':None,'source':'Wikidata lookup'}
-    return {'country':iso,'people':row['people'],'verified_as_of':row['verified_as_of'], 'source':'Dated official government publications'}
-
 _LOCK=threading.Lock(); _POOL=ThreadPoolExecutor(max_workers=5, thread_name_prefix='country-data'); _BACKGROUND=ThreadPoolExecutor(max_workers=3,thread_name_prefix='country-refresh')
 _JOBS=set(); _MEM={}; _CATEGORIES=['economy','politics','defense','diplomacy']
 TTL_BRIEF=6*3600; TTL_LEADER=24*3600
@@ -52,7 +43,7 @@ def _fetch_text(url, maxbytes=800000, accept='application/json'):
  req=Request(url,headers={'User-Agent':'GMI-CountryResearch/3.0 (public-sourced metadata; contact via host)','Accept':accept})
  with urlopen(req,timeout=12) as r:return r.read(maxbytes).decode('utf-8','replace')
 
-def _collect_topic(iso,topic,lang="ko"):
+def _collect_topic(iso,topic):
  c=COUNTRIES[iso];n=c['english'];
  terms={
   'economy':'(economy OR inflation OR GDP OR "central bank" OR interest rates)',
@@ -60,16 +51,9 @@ def _collect_topic(iso,topic,lang="ko"):
   'defense':'(defense OR defence OR military OR national security OR security agreement)',
   'diplomacy':'("foreign minister" OR "state visit" OR summit OR "bilateral talks" OR "president meets")'
  }
- # Request articles published in the chosen language where available;
- # this is NOT guaranteed machine translation and article publishers retain their names.
- lang=lang if lang in ('ko','en','zh') else 'ko'
- context={'ko':{'economy':'경제 물가 성장 금융','politics':'정치 정부 선거 의회','defense':'국방 안보 군사','diplomacy':'외교 정상회담 방문'},
-          'en':{'economy':'economy inflation GDP','politics':'politics government election','defense':'defense security military','diplomacy':'diplomacy summit foreign minister'},
-          'zh':{'economy':'经济 通胀 增长','politics':'政治 政府 选举','defense':'国防 安全 军事','diplomacy':'外交 峰会 外长'}}
- params={'ko':('ko','KR','KR:ko'),'en':('en-US','US','US:en'),'zh':('zh-CN','CN','CN:zh-Hans')}
- hl,gl,ceid=params[lang]
- query=f'"{n}" ({" OR ".join(context[lang][topic].split())}) when:4d'
- url='https://news.google.com/rss/search?'+urlencode({'q':query,'hl':hl,'gl':gl,'ceid':ceid})
+ # Google News RSS is a discovery feed, not an official source. One country is fetched on demand.
+ query=f'"{n}" {terms[topic]} when:2d'
+ url='https://news.google.com/rss/search?'+urlencode({'q':query,'hl':'en-US','gl':'US','ceid':'US:en'})
  try:
   raw=_fetch_text(url,accept='application/rss+xml,application/xml')
   articles=auto_intel.parse_feed(raw,'Google News RSS','aggregator')
@@ -93,13 +77,13 @@ def _ai_enrich(items):
  if not api_key or not items:return items
  # One API request for 8 headlines; strict no fabricated article content/meeting details.
  schema={'type':'object','properties':{'results':{'type':'array','items':{'type':'object','properties':{
-  'index':{'type':'integer'},'title_ko':{'type':'string'},'title_en':{'type':'string'},'title_zh':{'type':'string'},'summary_ko':{'type':'string'},'summary_en':{'type':'string'},'summary_zh':{'type':'string'},
+  'index':{'type':'integer'},'summary_ko':{'type':'string'},'summary_en':{'type':'string'},'summary_zh':{'type':'string'},
   'impact_ko':{'type':'string'},'impact_en':{'type':'string'},'impact_zh':{'type':'string'},
   'affected_countries':{'type':'array','items':{'type':'string'}}},
-  'required':['index','title_ko','title_en','title_zh','summary_ko','summary_en','summary_zh','impact_ko','impact_en','impact_zh','affected_countries'],
+  'required':['index','summary_ko','summary_en','summary_zh','impact_ko','impact_en','impact_zh','affected_countries'],
   'additionalProperties':False}}},'required':['results'],'additionalProperties':False}
  payload={'model':os.getenv('GMI_AI_MODEL','gpt-4o-mini'),'input':[
-  {'role':'developer','content':'Summarize ONLY the supplied news HEADLINE and snippet. No article full text is available. Do not claim to have read the full article. If a precise detail is missing do not invent it. Conditional spillover hypotheses must be labeled possible, not facts. Do not give investments advice. Translate the precise original headline into all three languages (Korean, English, Simplified Chinese) as title_ko/title_en/title_zh, preserving proper names and uncertainty. Output summaries in all three languages Korean, English, Simplified Chinese. Empty impact string if no well-supported plausible spillover. Indices must correspond to inputs. Keep summaries <180 chars each and impacts <160.'},
+  {'role':'developer','content':'Summarize ONLY the supplied news HEADLINE and snippet. No article full text is available. Do not claim to have read the full article. If a precise detail is missing do not invent it. Conditional spillover hypotheses must be labeled possible, not facts. Do not give investments advice. Output all three languages Korean, English, Simplified Chinese. Empty impact string if no well-supported plausible spillover. Indices must correspond to inputs. Keep summaries <180 chars each and impacts <160.'},
   {'role':'user','content':json.dumps([{'index':i,'title':x['title'],'snippet':x.get('snippet',''),'category':x['category'],'date':x['date']} for i,x in enumerate(items)],ensure_ascii=False)}],
   'text':{'format':{'type':'json_schema','name':'daily_brief','strict':True,'schema':schema}},'max_output_tokens':2800}
  try:
@@ -110,16 +94,16 @@ def _ai_enrich(items):
   for item in result.get('results',[]):
    idx=item.get('index')
    if type(idx) is not int or not 0<=idx<len(items):continue
-   for field in ['title_ko','title_en','title_zh','summary_ko','summary_en','summary_zh','impact_ko','impact_en','impact_zh']:
+   for field in ['summary_ko','summary_en','summary_zh','impact_ko','impact_en','impact_zh']:
     items[idx][field]=str(item.get(field,'') or '')[:420]
    items[idx]['partner_countries']=[str(x)[:3] for x in item.get('affected_countries',[]) if str(x)[:3] in COUNTRIES]
  except Exception:pass
  return items
 
-def _refresh_brief(iso,lang='ko'):
- key='brief:'+iso+':'+lang
+def _refresh_brief(iso):
+ key='brief:'+iso
  try:
-  futures=[_POOL.submit(_collect_topic,iso,cat,lang) for cat in _CATEGORIES]
+  futures=[_POOL.submit(_collect_topic,iso,cat) for cat in _CATEGORIES]
   items=[];cats={}
   for cat,f in zip(_CATEGORIES,futures):
    try:cats[cat]=f.result(timeout=17)
@@ -132,14 +116,13 @@ def _refresh_brief(iso,lang='ko'):
  finally:
   with _LOCK:_JOBS.discard(key)
 
-def brief(iso,lang='ko'):
- lang=lang if lang in ('ko','en','zh') else 'ko'
- key='brief:'+iso+':'+lang;cached=_get(key)
+def brief(iso):
+ key='brief:'+iso;cached=_get(key)
  if (not cached or time.time()-cached[0]>TTL_BRIEF):
   with _LOCK:
    if key not in _JOBS:
     _JOBS.add(key)
-    _BACKGROUND.submit(_refresh_brief,iso,lang)
+    _BACKGROUND.submit(_refresh_brief,iso)
  with _LOCK:refreshing=key in _JOBS
  if cached:return {**cached[1],'loading':refreshing,'stale':(time.time()-cached[0]>TTL_BRIEF)}
  return {'country':iso,'categories':{k:[] for k in _CATEGORIES},'loading':refreshing,'updated_at':None,'basis':'headlines and RSS snippets only'}
@@ -157,19 +140,6 @@ def _wikidata_entities(qids,props='claims|labels'):
 
 def _api_leader_fallback(iso):
  q=COUNTRY_QIDS.get(iso)
- if not q:
-  try:
-   name=COUNTRIES[iso]['english']
-   url='https://www.wikidata.org/w/api.php?'+urlencode({'action':'wbsearchentities','search':name,'language':'en','type':'item','format':'json','limit':8})
-   hits=json.loads(_fetch_text(url)).get('search',[])
-   ids=[x.get('id') for x in hits if re.fullmatch(r'Q[0-9]+',x.get('id',''))]
-   entities=_wikidata_entities(ids,'claims') if ids else {}
-   for candidate,entity in entities.items():
-    for claim in entity.get('claims',{}).get('P298',[]):
-     if claim.get('mainsnak',{}).get('datavalue',{}).get('value','')==iso:
-      q=candidate;break
-    if q:break
-  except Exception:pass
  if not q:return []
  base=_wikidata_entities([q],'claims').get(q,{}).get('claims',{})
  selected=[]
@@ -250,32 +220,12 @@ def _refresh_leader(iso):
 
 def leader(iso):
  key='leader:'+iso;cached=_get(key)
- # Provide a clearly dated official-source snapshot immediately while the Wikidata
- # verification request executes asynchronously. Never treat snapshot as live.
- seed=_OFFICIAL_SNAPSHOTS.get(iso)
-
- if (not cached or time.time()-cached[0]>(900 if (cached[1].get('error') or not cached[1].get('people')) else TTL_LEADER)):
+ if (not cached or time.time()-cached[0]>(1800 if cached[1].get('error') else TTL_LEADER)):
   with _LOCK:
    if key not in _JOBS:
     _JOBS.add(key)
     _BACKGROUND.submit(_refresh_leader,iso)
  with _LOCK:loading=key in _JOBS
- # A dated government-confirmed roster takes precedence over an older/incomplete
- # Wikidata statement. A matching Wikidata image can enrich it, without replacing its dates.
- if seed:
-  person=next((p for p in seed['people'] if p['office']=='head_of_state'),None) or next((p for p in seed['people'] if p['office']=='head_of_government'),None)
-  if person:
-   enriched=dict(person)
-   known_qid=person.get('wikidata','')
-   if cached and cached[1].get('people'):
-    for candidate in cached[1]['people']:
-     if known_qid and candidate.get('source','').endswith('/'+known_qid):
-      enriched['image']=candidate.get('image','') or person.get('image','')
-      break
-   return {'country':iso,'people':[enriched],
-           'source':'Dated government official publication',
-           'verified_as_of':seed['verified_as_of'],'loading':loading}
- if cached and cached[1].get('people'):return {**cached[1],'loading':loading}
  if cached:return {**cached[1],'loading':loading}
  return {'country':iso,'people':[],'loading':loading,'source':'Wikidata'}
 
