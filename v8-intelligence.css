@@ -1,0 +1,26 @@
+/* v8 additions preserve the v5/v6 navy outlined visual language */
+.v8-government-person,.v8-ministers{background:#142033;border:1px solid #32455c;border-radius:9px}
+.v8-gov-leaders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.v8-government-person{min-width:0;padding:12px;display:flex;flex-direction:column;gap:8px}
+.v8-government-person small{font-size:11px;color:#e4a57a}
+.v8-government-person b{font-size:12px;overflow-wrap:anywhere;color:#eaf1fb}
+.v8-ministers{padding:2px 12px}
+.v8-minister-row{display:grid;grid-template-columns:115px minmax(0,1fr);gap:8px;align-items:start;padding:12px 0;border-bottom:1px solid #2f4053;font-size:11px}
+.v8-minister-row:last-child{border:0}
+.v8-minister-row>span{color:#9cb9d9}.v8-minister-row>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.v8-minister-row b{color:#fff;font-size:12px;font-weight:650;overflow-wrap:anywhere}.v8-minister-row small{color:#91a4b8;font-size:10px;overflow-wrap:anywhere}
+.v8-minister-row em{color:#8d9cb1;font-style:normal}
+.v8-date,.v8-small{font-size:10px;color:#98aabe;line-height:1.6;margin:8px 0 14px}
+.v8-date a{color:#9bd0ee}
+.v8-agenda h3,.v8-latest h3{font-size:13px;margin:10px 0 14px;color:#edf3fb}
+.v8-agenda{border:1px solid #304359;background:#122031;border-radius:9px;padding:15px 12px}
+.v8-agenda-row{display:grid;grid-template-columns:38% 1fr;gap:8px;padding:13px 0;border-top:1px solid #293c50}
+.v8-agenda-profile{display:flex;flex-direction:column;gap:5px;font-size:11px;min-width:0}
+.v8-agenda-profile b{color:#e3a174}.v8-agenda-profile small{overflow-wrap:anywhere;color:#dfebf9;line-height:1.5}
+.v8-agenda-detail,.v8-agenda-item{display:flex;flex-direction:column;gap:4px;font-size:11px}
+.v8-agenda-item time{color:#8dbbe6}.v8-agenda-item a{color:#91bddd}
+.v8-agenda-item em{font-size:10px;color:#caa47a;font-style:normal}
+.v8-pending{font-size:10px;color:#8fa5ba;line-height:1.5}
+.v8-latest{padding:14px 2px}.v8-latest-item{border-bottom:1px solid #26394c;padding:12px 0;display:flex;flex-direction:column;gap:5px;font-size:11px}
+.v8-latest-item span{color:#9ab0c8}.v8-latest-item a{line-height:1.55;color:#dbeaf6;text-decoration:none}
+@media(max-width:410px){.v8-gov-leaders{grid-template-columns:1fr}.v8-agenda-row{grid-template-columns:1fr}.v8-minister-row{grid-template-columns:100px 1fr}}

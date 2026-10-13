@@ -1,40 +1,45 @@
-# GMI v6 · 국가 주요 지도부 + 거시경제 API 안정화
+# GMI v8 — 정치 지도부·고위급 일정·거시경제 비교 업데이트
 
-## 이번 업데이트
-- 지도부: 국가별로 대통령·부통령, 국가주석·국무원 총리, 총리·국왕 등 **서로 다른 공식 직책 두 개**를 표시합니다. 화면에는 임의의 '서열'이나 '순위'를 표시하지 않습니다.
-- 2026-10-13 기준 정부 공식 출처를 확인한 **미국·중국·한국·일본·영국·러시아**의 빠른 기본 명단을 내장합니다. 나머지 국가에서는 기존 Wikidata 조회를 이용하며, 사실 확인이 어려우면 1명만 표시할 수 있습니다.
-- 지도부 API `/api/leadership?country=CHN`: 빠른 기본 명단과 정부 출처를 반환합니다. 외부 Wikidata가 느려도 위 6개국은 대기하지 않습니다.
-- 국가 비교 API `/api/macro-compare?countries=USA,CHN,JPN,KOR&indicator=NY.GDP.MKTP.KD.ZG` 신규 추가. 선택한 최대 4개 국가를 세계은행에 한 번에 요청하고, 실패 시 저장된 과거 성공 응답을 이용합니다.
-- `/api/macro-bundle?country=CHN`: 여러 지표 한 번에 요청 → 실패 시 각 지표를 별도로 병렬 재시도 → 마지막 성공 데이터 활용. 빈 결과를 오래 캐시하지 않습니다.
-- 초기 로딩과 외부 자료 장애를 구분하고, 재시도 버튼을 제공합니다. 캐시 정보는 '이전 조회 자료'로 표시합니다.
-- v5의 어두운 테두리 카드 스타일은 그대로 유지합니다.
+## 변경 사항
 
-## GitHub / Railway 업데이트 순서
-1. 배포하기 전 현재 GitHub 저장소를 별도 ZIP으로 내려받아 백업합니다.
-2. 이 배포 ZIP을 압축 해제합니다. **폴더 안의 파일들을 저장소 최상위**(`Dockerfile`이 있는 곳)에 업로드합니다.
-3. GitHub에서 Commit changes 합니다.
-4. Railway → Deployments에서 최신 배포가 ACTIVE인지 확인합니다.
-5. 기존 사이트에서 Ctrl+Shift+R을 누릅니다. 기존 Railway 도메인을 재발급할 필요는 없습니다.
+1. CIA World Leaders의 국가별 각료 명단 수집 규칙을 수정했습니다. 국가마다 다른 장관 명칭(미국의 Secretary, 케냐의 Cabinet Secretary, 남아공의 International Relations, 멕시코의 External Relations 등)을 **외교 / 국방 / 통상·경제 / 재무** 카테고리로 자동 정리합니다. 조회 결과에는 원어 직책·원문 링크·자료 기준일을 함께 표시합니다.
+2. 아프리카 **남아공·나이지리아·케냐·가나**, 미주 **멕시코·브라질·콜롬비아**의 출처 날짜가 명시된 명단을 초기 화면에 포함했습니다. 기존 약 37개 국가의 명단도 유지됩니다. 250개 지역 전체는 국가별 조회 페이지를 유지하지만 실제 현직자 검증 범위는 다릅니다. 정부 인사 변동과 수집 대상 출처의 발표 지연에 유의하십시오.
+3. 새 `v8-intelligence.js`는 정치·권력구조 탭에서 장관 4개 유형을 우선 보여줍니다. **해당 국가의 헌정·제도적 직책**을 보여주는 것이지 정치인 서열을 평가하지 않습니다.
+4. 외교·안보·통상 탭에서는 최고위 지도부, 외교·국방·통상·재무 담당자의 **이름 / 직책 / 예정된 방문일·회담일**을 구분한 행을 제공합니다. 기사 제목 또는 공식 발표에서 실제 **방문일을 확인하지 못하면 예정 일정으로 등록하지 않습니다**. 보도 자체는 별도의 '관련 보도' 영역에 표시합니다. `OPENAI_API_KEY`가 등록되면 기존 기사 제목 AI 구조화 기능을 사용할 수 있지만 뉴스 제목만으로는 공식 확정으로 처리하지 않습니다.
+5. 거시경제 6개 지표(실질 GDP 성장률, 소비자물가상승률, 실업률, 무역/GDP, 경상계정, 금융계정) 유지. **비율은 %를 유지**, 경상·금융계정의 금액 지표만 선택 언어에 따라 한국어 KRW, 중국어 CNY, 영어 USD로 자동 변환합니다. Frankfurter에서 실제 환율을 가져오고 환율 기준일을 표시하며, **현재 환율로 환산한 참고값**이지 당시 연도의 역사적 환율로 환산한 통계가 아닙니다. 환율 소스가 응답하지 않으면 원래 USD를 유지하며 임의 환율을 쓰지 않습니다.
+6. `/api/macro-compare` 및 `/api/macro-bundle`의 World Bank 국가·지역 코드 처리, 응답 오류 분리, 자료 미제공 상태 처리를 개선했습니다. 해당 국가에 통계가 제공되지 않으면 지표 없음으로 표시합니다. 여전히 World Bank의 통계 미수록 지역은 존재합니다.
+7. **국가 비교에서 '데이터 CSV 다운로드' 버튼을 즉시 사용 가능**하게 만들었습니다. CSV에는 개별 국가·연도·원래 지표·원 단위·선택 언어의 환산값·사용 환율 및 날짜·데이터 상태가 포함됩니다. 원격 데이터가 없는 경우 상태를 표시합니다.
+8. 서버에 `/api/fx`(기본 통화 USD, KRW/CNY 환산율) 엔드포인트를 추가했습니다.
 
-## 데이터가 여전히 안 뜰 때 빠른 확인
-- `https://<내-도메인>/api/health` → status가 `ok`인지 확인
-- `https://<내-도메인>/api/leadership?country=CHN` → `people` 배열에 시진핑/리창 두 인물이 있는지 확인
-- `https://<내-도메인>/api/macro-compare?countries=USA,CHN&indicator=NY.GDP.MKTP.KD.ZG` → `indicators` 항목에 두 나라 시계열이 포함되는지 확인
-- `https://<내-도메인>/api/macro-bundle?country=USA` → `indicators`에 6개 시계열 항목이 있는지 확인
+## 배포
 
-응답에 `error: source_temporarily_unavailable`가 나오면 세계은행 응답 지연/네트워크 문제일 수 있습니다. 처음 배포한 사이트에 캐시가 없다면 자료가 일시적으로 비어 보일 수 있습니다. Railway의 **Deploy Logs**에서 통신 오류를 확인하세요.
+기존 GitHub 저장소 `kimhwanhee/gmi-macro-intelligence`에서 `Add file → Upload files`를 눌러 이 ZIP의 **최상위 파일 전체**를 업로드하고 `Commit changes`를 누르세요. 특히 `Dockerfile`, `server.py`, `political_data.py`, `political-snapshots.json`, `macro_data.py`, `fx_data.py`, `index.html`, `v8-intelligence.js`, `v8-intelligence.css`가 최상위에 있어야 합니다. Railway가 `Active`로 바뀌면 `Ctrl + Shift + R`로 새로고침하세요.
 
-### 데이터 영구 저장
-Railway Volume을 `/data`에 마운트하세요. Python 서버는 `GMI_DB_PATH=/data/gmi_intelligence.sqlite3`에 자동 인텔리전스 데이터를 보관하고, 새 거시경제 캐시도 같은 폴더에서 저장합니다. Volume이 없다면 재배포할 때 캐시가 소실될 수 있습니다.
+Railway에서 `/data` 경로의 Volume이 연결되어 있으면 지도부·거시경제·환율 캐시가 재배포 후에도 보존됩니다. `OPENAI_API_KEY`는 Railway > Variables에만 보관하며 GitHub에는 올리지 마세요.
 
-### 검증 범위
-- Python 소스 컴파일 및 JS 구문 검사
-- 로컬 API를 통한 중국 주요 지도부 2명 반환
-- 모의 세계은행 데이터를 이용한 차트 렌더링 및 캐시 오류 복원 테스트
-- 실제 Chrome 렌더링 확인(외부 인터넷은 제한돼 있어 TradingView 및 World Bank의 실시간 응답은 확인하지 못함)
+## 점검용 주소
 
-### 중요
-- 인물 명단은 검증 시점(2026-10-13)의 공식 발표에 기반한 스냅샷으로, 인사 교체를 실시간 검증했다는 의미는 아닙니다.
-- 이미 저장된 이전 성공 데이터가 없고 World Bank 접속도 실패한 경우에는 수치를 만들어 채우지 않습니다.
-- 일부 국가의 정치 구조에는 대통령과 총리 같은 구분이 없거나 동일인이 겸직합니다. 서로 다른 인물이 확인되지 않으면 임의의 두 번째 인물을 만들지 않습니다.
-- 업로드 전 `.env`, API 키, SQLite DB 파일을 GitHub에 올리지 마세요.
+- `/api/health`
+- `/api/politics?country=ZAF` (남아공)
+- `/api/politics?country=NGA` (나이지리아)
+- `/api/politics?country=BRA` (브라질)
+- `/api/politics?country=MEX` (멕시코)
+- `/api/macro-bundle?country=GHA`
+- `/api/macro-compare?countries=USA,KOR,CHN,JPN&indicator=NY.GDP.MKTP.KD.ZG`
+- `/api/fx`
+
+`/api/politics` 첫 요청은 날짜가 있는 기본 인물을 먼저 보여주고, 내각·의회 최신 조회는 백그라운드에서 진행합니다. 최신 자료를 내려받지 못했거나 발표가 없다면 그 상태를 정직하게 유지합니다.
+
+## 시험 및 한계
+
+- Python 모듈 구문 및 주요 단위 테스트, JavaScript 구문 검사 통과.
+- API 첫 응답과 기본 명단·직책 분류는 로컬 서버로 확인했습니다.
+- 실제 외부 World Bank/CIA/Frankfurter 요청과 Chromium 자동 브라우저 접속은 본 환경의 외부 연결/접속 정책으로 검증되지 않았습니다. Railway에 적용한 후 실제 응답을 점검해야 합니다.
+- 전 세계 모든 250개 국가·지역의 최고위 인물 3명, 모든 장관, 모든 방문 일정을 실시간으로 제공한다고 보장하지 않습니다.
+
+## 출처
+
+- CIA World Leaders: https://www.cia.gov/resources/world-leaders/
+- IPU Parline: https://data.ipu.org/
+- World Bank WDI: https://data.worldbank.org/
+- Frankfurter: https://frankfurter.dev/

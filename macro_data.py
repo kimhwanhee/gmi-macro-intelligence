@@ -6,6 +6,11 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+ROOT=Path(__file__).resolve().parent
+CAT=json.loads((ROOT/'country-catalog.json').read_text(encoding='utf-8'))
+ISO2={r['iso']:r.get('iso2') or r['iso'] for r in CAT}
+# The World Bank uses XK for Kosovo; dependent territories have variable coverage.
+ISO2['XKX']='XK'
 
 DB=Path(os.getenv('GMI_DB_PATH','/tmp/gmi_macro.sqlite3'))
 INDICATORS=('NY.GDP.MKTP.KD.ZG','FP.CPI.TOTL.ZG','SL.UEM.TOTL.ZS','NE.TRD.GNFS.ZS','BN.CAB.XOKA.CD','BN.FIN.TOTL.CD')
@@ -43,7 +48,7 @@ def write(key,body):
 
 def fetch_rows(countries,indicators,timeout=7):
  """One batched WDI query for a country set and indicator set."""
- cs=';'.join(countries);codes=';'.join(indicators)
+ cs=';'.join(ISO2.get(c,c) for c in countries);codes=';'.join(indicators)
  params={'format':'json','source':'2','date':'2012:2026','per_page':'2000'}
  url=f'https://api.worldbank.org/v2/country/{cs}/indicator/{codes}?{urlencode(params)}'
  req=Request(url,headers={'User-Agent':'GMI-MacroResearch/6.0 (research dashboard)','Accept':'application/json'})
@@ -54,6 +59,10 @@ def fetch_rows(countries,indicators,timeout=7):
  for row in raw[1]:
   if not isinstance(row,dict):continue
   country=row.get('countryiso3code') or ''
+  # Country ID/ISO codes are not always identical for territories.
+  if country not in result:
+   observed=(row.get('country') or {}).get('id','')
+   country=next((c for c in countries if ISO2.get(c,c).casefold()==str(observed).casefold()),country)
   indicator=row.get('indicator',{}).get('id','')
   if country not in result or indicator not in result[country] or row.get('value') is None:continue
   try:val=float(row['value'])
@@ -73,6 +82,9 @@ def single_country(iso,force=False):
  # isolate errors: one failed indicator should not break the other 5.
  try:
   result=fetch_rows([iso],INDICATORS)[iso]
+  if not any(result.values()):
+   write(key,result)
+   return {'country':iso,'indicators':result,'source':'World Bank WDI','cached_at':time.time(),'stale':False,'no_published_data':True}
   if any(result.values()):
    write(key,result)
    return {'country':iso,'indicators':result,'source':'World Bank WDI','cached_at':time.time(),'stale':False}
@@ -107,6 +119,9 @@ def compare(countries,indicator,force=False):
  try:
   rows=fetch_rows(countries,[indicator],8)
   output={c:rows[c][indicator] for c in countries}
+  if not any(output.values()):
+   write(key,output)
+   return {'indicators':output,'countries':countries,'indicator':indicator,'cached_at':time.time(),'stale':False,'no_published_data':True}
   if any(output.values()):
    write(key,output)
    return {'indicators':output,'countries':countries,'indicator':indicator,'cached_at':time.time(),'stale':False}

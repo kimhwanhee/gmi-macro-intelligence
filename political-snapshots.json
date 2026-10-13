@@ -1,0 +1,809 @@
+{
+  "AUT": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Christian Stocker",
+        "office": "chancellor",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Alexander Van der Bellen",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/austria/"
+      }
+    ]
+  },
+  "BEL": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Bart De Wever",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Philippe",
+        "office": "monarch",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/belgium/"
+      }
+    ]
+  },
+  "BGR": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Rumen Radev",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "HRV": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Andrej Plenković",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Zoran Milanović",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/croatia/"
+      }
+    ]
+  },
+  "CYP": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Nikos Christodoulides",
+        "office": "president",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "CZE": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Andrej Babiš",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Petr Pavel",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/czechia/"
+      }
+    ]
+  },
+  "DNK": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Mette Frederiksen",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Frederik X",
+        "office": "monarch",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/denmark/"
+      }
+    ]
+  },
+  "EST": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Kristen Michal",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "FIN": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Petteri Orpo",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Alexander Stubb",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/finland/"
+      }
+    ]
+  },
+  "FRA": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Emmanuel Macron",
+        "office": "president",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Sébastien Lecornu",
+        "office": "prime_minister",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/france/"
+      }
+    ]
+  },
+  "DEU": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Friedrich Merz",
+        "office": "chancellor",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Frank-Walter Steinmeier",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/germany/"
+      }
+    ]
+  },
+  "GRC": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Kyriakos Mitsotakis",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Konstantinos Tasoulas",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/greece/"
+      }
+    ]
+  },
+  "HUN": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Péter Magyar",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "IRL": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Micheál Martin",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "ITA": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Giorgia Meloni",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Sergio Mattarella",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/italy/"
+      }
+    ]
+  },
+  "LVA": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Andris Kulbergs",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "LTU": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Gitanas Nausėda",
+        "office": "president",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "LUX": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Luc Frieden",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Guillaume",
+        "office": "monarch",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/luxembourg/"
+      }
+    ]
+  },
+  "MLT": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Robert Abela",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Myriam Spiteri Debono",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/malta/"
+      }
+    ]
+  },
+  "NLD": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Rob Jetten",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Willem-Alexander",
+        "office": "monarch",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/netherlands/"
+      }
+    ]
+  },
+  "POL": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Donald Tusk",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Karol Nawrocki",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/poland/"
+      }
+    ]
+  },
+  "PRT": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Luís Montenegro",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "ROU": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Nicușor Dan",
+        "office": "president",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Ilie Bolojan",
+        "office": "prime_minister",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/romania/"
+      }
+    ]
+  },
+  "SVK": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Robert Fico",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "SVN": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Janez Janša",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      }
+    ]
+  },
+  "ESP": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Pedro Sánchez",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Felipe VI",
+        "office": "monarch",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/spain/"
+      }
+    ]
+  },
+  "SWE": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.consilium.europa.eu/en/european-council/members/",
+    "people": [
+      {
+        "name": "Ulf Kristersson",
+        "office": "prime_minister",
+        "source": "https://www.consilium.europa.eu/en/european-council/members/"
+      },
+      {
+        "name": "Carl XVI Gustaf",
+        "office": "monarch",
+        "source": "https://www.cia.gov/resources/government/sweden/"
+      }
+    ]
+  },
+  "ARG": {
+    "verified_as_of": "2026-08-06",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/argentina/",
+    "people": [
+      {
+        "name": "Javier Milei",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/argentina/"
+      },
+      {
+        "name": "Victoria Villarruel",
+        "office": "vice_president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/argentina/"
+      }
+    ]
+  },
+  "BRA": {
+    "verified_as_of": "2026-05-11",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/brazil/",
+    "people": [
+      {
+        "name": "Luiz Inácio Lula da Silva",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/brazil/",
+        "name_ko": "루이스 이나시우 룰라 다 시우바",
+        "name_zh": "卢拉·达席尔瓦"
+      },
+      {
+        "name": "Geraldo Alckmin",
+        "office": "vice_president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/brazil/",
+        "name_ko": "제라우두 아우키민",
+        "name_zh": "热拉尔多·阿尔克明"
+      }
+    ],
+    "cabinet_as_of": "2026-05-11",
+    "cabinet": [
+      {
+        "name": "Mauro Vieira",
+        "office": "foreign_minister",
+        "title": "Minister of Foreign Affairs",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/brazil/"
+      },
+      {
+        "name": "José Múcio Monteiro",
+        "office": "defense_minister",
+        "title": "Minister of Defense",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/brazil/"
+      },
+      {
+        "name": "Marcio Elias Rosa",
+        "office": "trade_minister",
+        "title": "Minister of Development, Industry and Trade",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/brazil/"
+      },
+      {
+        "name": "Dario Durigan",
+        "office": "finance_minister",
+        "title": "Minister of Finance",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/brazil/"
+      }
+    ]
+  },
+  "COL": {
+    "verified_as_of": "2026-08-31",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/colombia/",
+    "people": [
+      {
+        "name": "Abelardo Gabriel de la Espriella Otero",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/colombia/"
+      },
+      {
+        "name": "José Manuel Restrepo Abondano",
+        "office": "vice_president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/colombia/"
+      }
+    ],
+    "cabinet_as_of": "2026-08-31",
+    "cabinet": [
+      {
+        "name": "Omar Bula Escobar",
+        "office": "foreign_minister",
+        "title": "Minister of Foreign Relations",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/colombia/"
+      },
+      {
+        "name": "Jorge Eduardo Mora Lopez",
+        "office": "defense_minister",
+        "title": "Minister of Defense",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/colombia/"
+      },
+      {
+        "name": "Diana Morales",
+        "office": "trade_minister",
+        "title": "Minister of Commerce, Industry and Tourism",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/colombia/"
+      },
+      {
+        "name": "Miguel Gomez Martinez",
+        "office": "finance_minister",
+        "title": "Minister of Finance",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/colombia/"
+      }
+    ]
+  },
+  "PER": {
+    "verified_as_of": "2026-07-29",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/peru/",
+    "people": [
+      {
+        "name": "Keiko Fujimori",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/peru/"
+      },
+      {
+        "name": "Luis Galarreta",
+        "office": "vice_president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/peru/"
+      }
+    ]
+  },
+  "CAN": {
+    "verified_as_of": "2025-05-14",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/canada/",
+    "people": [
+      {
+        "name": "Mark Carney",
+        "office": "prime_minister",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/canada/"
+      },
+      {
+        "name": "Mary Simon",
+        "office": "governor_general",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/canada/"
+      }
+    ]
+  },
+  "CUB": {
+    "verified_as_of": "2026-04-17",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/cuba/",
+    "people": [
+      {
+        "name": "Miguel Díaz-Canel",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/cuba/"
+      },
+      {
+        "name": "Manuel Marrero Cruz",
+        "office": "prime_minister",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/cuba/"
+      }
+    ]
+  },
+  "CHL": {
+    "verified_as_of": "2026-07-08",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/chile/",
+    "people": [
+      {
+        "name": "José Antonio Kast",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/chile/"
+      },
+      {
+        "name": "Claudio Alvarado",
+        "office": "interior_minister",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/chile/"
+      }
+    ]
+  },
+  "MEX": {
+    "verified_as_of": "2026-06-23",
+    "source": "https://www.cia.gov/resources/government/mexico/",
+    "people": [
+      {
+        "name": "Claudia Sheinbaum Pardo",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/government/mexico/",
+        "name_ko": "클라우디아 셰인바움",
+        "name_zh": "克劳迪娅·辛鲍姆"
+      }
+    ],
+    "cabinet_as_of": "2026-06-23",
+    "cabinet": [
+      {
+        "name": "Roberto Velasco Alvarez",
+        "office": "foreign_minister",
+        "title": "Secretary of External Relations",
+        "source": "https://www.cia.gov/resources/government/mexico/"
+      },
+      {
+        "name": "Ricardo Trevilla Trejo",
+        "office": "defense_minister",
+        "title": "Secretary of National Defense",
+        "source": "https://www.cia.gov/resources/government/mexico/"
+      },
+      {
+        "name": "Marcelo Ebrard Casaubon",
+        "office": "trade_minister",
+        "title": "Secretary of Economy",
+        "source": "https://www.cia.gov/resources/government/mexico/"
+      },
+      {
+        "name": "Edgar Amador Zamora",
+        "office": "finance_minister",
+        "title": "Secretary of Finance and Public Credit",
+        "source": "https://www.cia.gov/resources/government/mexico/"
+      }
+    ]
+  },
+  "GBR": {
+    "verified_as_of": "2026-10-13",
+    "source": "https://www.gov.uk/government/ministers/prime-minister",
+    "people": [
+      {
+        "name": "Andy Burnham",
+        "office": "prime_minister",
+        "source": "https://www.gov.uk/government/ministers/prime-minister"
+      },
+      {
+        "name": "Charles III",
+        "office": "monarch",
+        "source": "https://www.gov.uk/government/ministers/prime-minister"
+      }
+    ]
+  },
+  "NOR": {
+    "verified_as_of": "2026-09-25",
+    "source": "https://www.cia.gov/resources/world-leaders/",
+    "people": [
+      {
+        "name": "Haakon VIII",
+        "office": "monarch",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/norway/"
+      }
+    ]
+  },
+  "ZAF": {
+    "verified_as_of": "2026-07-07",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/south-africa/",
+    "people": [
+      {
+        "name": "Matamela Cyril Ramaphosa",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/south-africa/",
+        "name_ko": "시릴 라마포사",
+        "name_zh": "西里尔·拉马福萨"
+      },
+      {
+        "name": "Paul Mashatile",
+        "office": "vice_president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/south-africa/",
+        "name_ko": "폴 마샤틸레",
+        "name_zh": "保罗·马沙蒂莱"
+      }
+    ],
+    "cabinet_as_of": "2026-07-07",
+    "cabinet": [
+      {
+        "name": "Ronald Lamola",
+        "office": "foreign_minister",
+        "title": "Minister of International Relations and Cooperation",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/south-africa/"
+      },
+      {
+        "name": "Angie Motshekga",
+        "office": "defense_minister",
+        "title": "Minister of Defence and Military Veterans",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/south-africa/"
+      },
+      {
+        "name": "Parks Tau",
+        "office": "trade_minister",
+        "title": "Minister of Trade, Industry and Competition",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/south-africa/"
+      },
+      {
+        "name": "Enoch Godongwana",
+        "office": "finance_minister",
+        "title": "Minister of Finance",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/south-africa/"
+      }
+    ]
+  },
+  "NGA": {
+    "verified_as_of": "2026-05-05",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/nigeria/",
+    "people": [
+      {
+        "name": "Bola Tinubu",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/nigeria/",
+        "name_ko": "볼라 티누부",
+        "name_zh": "博拉·蒂努布"
+      },
+      {
+        "name": "Kashim Shettima",
+        "office": "vice_president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/nigeria/",
+        "name_ko": "카심 셰티마",
+        "name_zh": "卡希姆·谢蒂马"
+      }
+    ],
+    "cabinet_as_of": "2026-05-05",
+    "cabinet": [
+      {
+        "name": "Bianca Odumegwu-Ojukwu",
+        "office": "foreign_minister",
+        "title": "Minister of Foreign Affairs",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/nigeria/"
+      },
+      {
+        "name": "Christopher Gwabin Musa",
+        "office": "defense_minister",
+        "title": "Minister of Defence",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/nigeria/"
+      },
+      {
+        "name": "Jumoke Oduwole",
+        "office": "trade_minister",
+        "title": "Minister of Industry, Trade and Investment",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/nigeria/"
+      },
+      {
+        "name": "Taiwo Oyedele",
+        "office": "finance_minister",
+        "title": "Minister of Finance and Coordinating Minister of the Economy",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/nigeria/"
+      }
+    ]
+  },
+  "GHA": {
+    "verified_as_of": "2025-12-15",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/ghana/",
+    "people": [
+      {
+        "name": "John Mahama",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/ghana/",
+        "name_ko": "존 마하마",
+        "name_zh": "约翰·马哈马"
+      },
+      {
+        "name": "Naana Jane Opoku-Agyemang",
+        "office": "vice_president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/ghana/",
+        "name_ko": "나나 제인 오포쿠아제망",
+        "name_zh": "娜娜·简·奥波库-阿杰曼"
+      }
+    ],
+    "cabinet_as_of": "2025-12-15",
+    "cabinet": [
+      {
+        "name": "Samuel Okudzeto Ablakwa",
+        "office": "foreign_minister",
+        "title": "Minister of Foreign Affairs",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/ghana/"
+      },
+      {
+        "name": "Cassiel Ato Baah Forson",
+        "office": "defense_minister",
+        "title": "Acting Minister of Defence (as of source date)",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/ghana/"
+      },
+      {
+        "name": "Elizabeth Ofosu Agyare",
+        "office": "trade_minister",
+        "title": "Minister of Trade, Agribusiness and Industry",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/ghana/"
+      },
+      {
+        "name": "Cassiel Ato Baah Forson",
+        "office": "finance_minister",
+        "title": "Minister of Finance",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/ghana/"
+      }
+    ]
+  },
+  "KEN": {
+    "verified_as_of": "2025-08-08",
+    "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/kenya/",
+    "people": [
+      {
+        "name": "William Samoei Ruto",
+        "office": "president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/kenya/",
+        "name_ko": "윌리엄 루토",
+        "name_zh": "威廉·鲁托"
+      },
+      {
+        "name": "Abraham Kithure Kindiki",
+        "office": "vice_president",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/kenya/",
+        "name_ko": "키투레 킨디키",
+        "name_zh": "基图雷·金迪基"
+      }
+    ],
+    "cabinet_as_of": "2025-08-08",
+    "cabinet": [
+      {
+        "name": "Wycliffe Musalia Mudavadi",
+        "office": "foreign_minister",
+        "title": "Cabinet Secretary for Foreign and Diaspora Affairs",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/kenya/"
+      },
+      {
+        "name": "Roselinda Soipan Tuya",
+        "office": "defense_minister",
+        "title": "Cabinet Secretary for Defence",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/kenya/"
+      },
+      {
+        "name": "Lee Maiyani Kinyanjui",
+        "office": "trade_minister",
+        "title": "Cabinet Secretary for Investments, Trade and Industry",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/kenya/"
+      },
+      {
+        "name": "John Mbadi Ngongo",
+        "office": "finance_minister",
+        "title": "Cabinet Secretary for National Treasury and Economic Planning",
+        "source": "https://www.cia.gov/resources/world-leaders/foreign-governments/kenya/"
+      }
+    ]
+  }
+}
