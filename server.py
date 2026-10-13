@@ -9,12 +9,14 @@ from urllib.error import HTTPError, URLError
 import json, os, sys, time, re, threading, secrets
 import auto_intel
 import research_api
+import leadership_data
+import macro_data
 
 ROOT=Path(__file__).resolve().parent
 PUBLIC_MODE = os.getenv('GMI_PUBLIC_MODE', '0').strip() == '1'
 ADMIN_TOKEN = os.getenv('GMI_ADMIN_TOKEN','').strip()
 # Public deployments must never serve arbitrary project files (including source, env, database).
-PUBLIC_ASSETS = {'/','/index.html','/styles.css','/app.js','/country-catalog.js','/enhancements.js'}
+PUBLIC_ASSETS = {'/','/index.html','/styles.css','/app.js','/country-catalog.js','/enhancements.js','/refinements.js','/v5-repair.js','/v5-repair.css','/v6-fix.js','/v6-fix.css'}
 CACHE={}
 
 # ISO 3166-1 country/territory directory, plus Kosovo.
@@ -91,11 +93,31 @@ class Handler(SimpleHTTPRequestHandler):
             try: limit=int(params.get('limit',['350'])[0])
             except (ValueError,TypeError): limit=350
             return self.send_json({'events':auto_intel.list_events(limit,c or None),'status':{**auto_intel.status(),'public_mode':PUBLIC_MODE}})
+        if u.path=='/api/officials':
+            c=parse_qs(u.query).get('country',[''])[0].upper()
+            if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
+            return self.send_json(research_api.officials(c))
+        if u.path=='/api/leadership':
+            c=parse_qs(u.query).get('country',[''])[0].upper()
+            if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
+            return self.send_json(leadership_data.leadership(c))
+        if u.path=='/api/macro-bundle':
+            c=parse_qs(u.query).get('country',[''])[0].upper()
+            if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
+            force=parse_qs(u.query).get('refresh',['0'])[0]=='1'
+            return self.send_json(macro_data.single_country(c,force=force))
+        if u.path=='/api/macro-compare':
+            q=parse_qs(u.query)
+            cs=[x.upper() for x in q.get('countries',[''])[0].split(',') if x]
+            indicator=q.get('indicator',[''])[0]
+            if not cs or len(cs)>4 or len(cs)!=len(set(cs)) or any(c not in CATALOG for c in cs) or indicator not in macro_data.INDICATORS:
+                return self.send_json({'error':'Invalid compare parameters'},400)
+            return self.send_json(macro_data.compare(cs,indicator,force=q.get('refresh',['0'])[0]=='1'))
         if u.path in ('/api/leader','/api/brief','/api/diplomacy'):
             c=parse_qs(u.query).get('country',[''])[0].upper()
             if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
             if u.path=='/api/leader':return self.send_json(research_api.leader(c))
-            if u.path=='/api/brief':return self.send_json(research_api.brief(c))
+            if u.path=='/api/brief':return self.send_json(research_api.brief(c,parse_qs(u.query).get('lang',['ko'])[0]))
             return self.send_json(research_api.diplomacy(c))
         if u.path=='/api/health':
             return self.send_json({'status':'ok','public_mode':PUBLIC_MODE,'data_sources':{'macro':'World Bank','news':'GDELT DOC 2.0'},'note':'External APIs require Internet access.'})

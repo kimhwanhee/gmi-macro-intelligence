@@ -1,0 +1,141 @@
+{
+  "USA": {
+    "verified_as_of": "2026-10-13",
+    "people": [
+      {
+        "office": "president",
+        "name": "Donald Trump",
+        "name_ko": "도널드 트럼프",
+        "name_zh": "唐纳德·特朗普",
+        "term_start": "2025-01-20",
+        "elected_on": "2024-11-05",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Official_Presidential_Portrait_of_President_Donald_J._Trump_(2025).jpg",
+        "source": "https://www.whitehouse.gov/administration/"
+      },
+      {
+        "office": "vice_president",
+        "name": "JD Vance",
+        "name_ko": "J. D. 밴스",
+        "name_zh": "JD·万斯",
+        "term_start": "2025-01-20",
+        "image": "",
+        "source": "https://www.whitehouse.gov/administration/jd-vance/"
+      }
+    ]
+  },
+  "CHN": {
+    "verified_as_of": "2026-10-13",
+    "people": [
+      {
+        "office": "president_general_secretary",
+        "name": "Xi Jinping",
+        "name_ko": "시진핑",
+        "name_zh": "习近平",
+        "term_start": "2013-03-14",
+        "elected_on": "2023-03-10",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinese_President_Xi_May_2024.jpg",
+        "source": "https://english.www.gov.cn/"
+      },
+      {
+        "office": "premier",
+        "name": "Li Qiang",
+        "name_ko": "리창",
+        "name_zh": "李强",
+        "term_start": "2023-03-11",
+        "image": "",
+        "source": "https://english.www.gov.cn/premier/"
+      }
+    ]
+  },
+  "RUS": {
+    "verified_as_of": "2026-10-13",
+    "people": [
+      {
+        "office": "president",
+        "name": "Vladimir Putin",
+        "name_ko": "블라디미르 푸틴",
+        "name_zh": "弗拉基米尔·普京",
+        "term_start": "2024-05-07",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vladimir_Putin_official_portrait.jpg",
+        "source": "https://kremlin.ru/structure/president"
+      },
+      {
+        "office": "prime_minister",
+        "name": "Mikhail Mishustin",
+        "name_ko": "미하일 미슈스틴",
+        "name_zh": "米哈伊尔·米舒斯京",
+        "image": "",
+        "source": "https://government.ru/"
+      }
+    ]
+  },
+  "GBR": {
+    "verified_as_of": "2026-10-13",
+    "people": [
+      {
+        "office": "prime_minister",
+        "name": "Andy Burnham",
+        "name_ko": "앤디 버넘",
+        "name_zh": "安迪·伯纳姆",
+        "term_start": "2026-07-20",
+        "image": "",
+        "source": "https://www.gov.uk/government/ministers/prime-minister"
+      },
+      {
+        "office": "monarch",
+        "name": "Charles III",
+        "name_ko": "찰스 3세",
+        "name_zh": "查尔斯三世",
+        "term_start": "2022-09-08",
+        "image": "",
+        "source": "https://www.royal.uk/"
+      }
+    ]
+  },
+  "KOR": {
+    "verified_as_of": "2026-10-13",
+    "people": [
+      {
+        "office": "president",
+        "name": "Lee Jae-myung",
+        "name_ko": "이재명",
+        "name_zh": "李在明",
+        "term_start": "2025-06-04",
+        "elected_on": "2025-06-03",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lee_Jae_Myung_portrait.jpg",
+        "source": "https://www.president.go.kr/"
+      },
+      {
+        "office": "prime_minister",
+        "name": "Han Sung-sook",
+        "name_ko": "한성숙",
+        "name_zh": "韩圣淑",
+        "image": "",
+        "source": "https://www.opm.go.kr/opm/index.do"
+      }
+    ]
+  },
+  "JPN": {
+    "verified_as_of": "2026-10-13",
+    "people": [
+      {
+        "office": "prime_minister",
+        "name": "Sanae Takaichi",
+        "name_ko": "다카이치 사나에",
+        "name_zh": "高市早苗",
+        "term_start": "2026-02-18",
+        "image": "",
+        "source": "https://japan.kantei.go.jp/105/actions/202602/_00001.html"
+      },
+      {
+        "office": "emperor",
+        "name": "Naruhito",
+        "name_ko": "나루히토",
+        "name_zh": "德仁",
+        "term_start": "2019-05-01",
+        "image": "",
+        "source": "https://www.kunaicho.go.jp/eindex.html"
+      }
+    ]
+  }
+}

@@ -1,0 +1,114 @@
+/* GMI v5 • Restore the v3 dark-card visual language. Stable styles for every v4-generated control. */
+:root{--v5-bg:#0b1018;--v5-panel:#121b28;--v5-panel-hi:#172335;--v5-border:#314157;--v5-faint:#7185a0;--v5-ink:#e8edf6;--v5-accent:#d39c77}
+html,body,#app{background:var(--v5-bg);color:var(--v5-ink)}
+button,select,input,textarea{font-family:Inter,system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif}
+button{cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #e9aa80;outline-offset:2px}
+button,select,input{min-width:0}
+select,select option{background-color:#172131!important;color:#e6eff9!important}
+/* Sidebar • visually separate filtering from the events and preserve compact typography. */
+.sidebar-scroll>.filter-section{display:none!important}
+#sidebarEvents{padding:4px 11px 28px!important}
+#sidebarEvents .v4-event-filter{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin:7px 0 16px!important}
+#sidebarEvents .v4-event-filter select{min-width:0;width:100%;background:#152131!important;color:#dae6f4!important;border:1px solid #35475e!important;border-radius:8px!important;padding:9px 6px!important;font-size:11px!important;line-height:1.4}
+#sidebarEvents .v4-event-region{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:#a9bfd6;margin:17px 0 7px;border-bottom:1px solid #28394c;padding-bottom:7px}
+#sidebarEvents .v4-event{width:100%;display:grid;grid-template-columns:8px minmax(0,1fr);gap:10px;align-items:start;text-align:left;padding:10px 9px;margin:4px 0;background:#111b29;color:#e2ebf5;border:1px solid #283c50;border-radius:8px;font-size:11px;line-height:1.55}
+#sidebarEvents .v4-event:hover{background:#1c2a3a;border-color:#52627a}
+#sidebarEvents .v4-event>i{width:7px;height:7px;border-radius:50%;margin-top:5px}
+#sidebarEvents .v4-event>span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+#sidebarEvents .v4-more{display:block;text-align:center;padding:11px;background:#172435;border:1px solid #35465a;color:#d9e8f8;border-radius:8px;margin:12px 0;width:100%;font-size:11px}
+#sidebarEvents .v4-more:hover{background:#263448}
+.v4-quick-country{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;color:#eef5ff;background:#151e2b;border:1px solid #334355;padding:9px 12px;border-radius:8px;text-align:left;margin:4px 0;font-size:12px}
+.v4-quick-country small{font-size:10px;color:#9fb0c4}
+/* Country directory • bordered, grouped, readable grid */
+.v4-heading{padding:0 0 19px;margin-bottom:21px;border-bottom:1px solid #2e3e52}
+.v4-heading .eyebrow{color:#b0bac8;font-size:10px;letter-spacing:.12em}
+.v4-heading p{color:#92a8be;font-size:12px;margin-top:7px}
+.v4-country-controls{display:grid;grid-template-columns:minmax(210px,2fr) minmax(160px,1fr);gap:12px;margin:0 0 24px}
+.v4-country-controls input,.v4-country-controls select,.v4-news-select{color:#eaf1fa!important;background:#151f2e!important;border:1px solid #3a4c63!important;padding:12px!important;border-radius:8px!important;font-size:12px!important;height:42px;max-width:100%;min-width:0}
+.v4-directory{display:flex;flex-direction:column;gap:22px;min-width:0}
+.v4-continent{border:1px solid #2e4055;background:#0f1723;border-radius:12px;padding:15px 16px 17px;min-width:0}
+.v4-continent-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;border-bottom:1px solid #2a3a4c;padding:0 0 12px}
+.v4-continent-head h3{font-size:17px;font-weight:700;margin:0;color:#f3f6fb}
+.v4-continent-head span{color:#a5b7cc;font-size:11px;border:1px solid #3a4960;border-radius:15px;padding:2px 8px}
+.v4-country-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;min-width:0}
+.v4-country{min-width:0;width:100%;background:#152130!important;border:1px solid #32455c!important;border-radius:8px!important;color:#e6eef7!important;display:flex;align-items:center;gap:10px;text-align:left;padding:10px 11px;min-height:57px}
+.v4-country:hover{background:#223247!important;border-color:#62758b!important}
+.v4-flag{font-size:22px;flex-shrink:0;line-height:1}
+.v4-country-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.v4-country-copy strong{font-size:12px;color:#f1f5fa;font-weight:650;line-height:1.45;overflow-wrap:anywhere}
+.v4-country-copy small{font-size:10px;color:#8fa6bf;line-height:1.3}
+.v4-chevron{color:#e0ad84;font-size:12px;flex-shrink:0}
+/* Drawer • 4 distinct tabs, original cohesive panel and leader card. */
+.v4-tabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:0 10px;background:#101825;border-bottom:1px solid #314258;overflow:visible!important}
+.v4-tabs .drawer-tab{color:#a6b7cc!important;background:transparent!important;border:0!important;border-bottom:2px solid transparent!important;min-width:0;min-height:50px;white-space:normal!important;word-break:keep-all;padding:8px 4px!important;line-height:1.35;font-size:11px!important}
+.v4-tabs .drawer-tab.active{color:#f2f6fb!important;border-bottom-color:#e2a37d!important;font-weight:700}
+.v4-body{padding:19px 18px 26px;overflow-x:hidden}
+.gmi-leader{display:flex!important;align-items:start;gap:12px;border:1px solid #36465c!important;background:#142031!important;border-radius:9px!important;padding:12px!important;margin:15px 0 0!important}
+.gmi-leader-photo{width:98px!important;min-width:98px!important;height:116px!important;background:#26364b!important;border-radius:6px!important}
+.gmi-photo-placeholder{color:#869aaf!important}
+.gmi-leader-name{color:#fff}
+.v4-officials-mini{background:#111c2b;border:1px solid #30435a;border-radius:9px;margin-top:12px;padding:13px}
+.v4-official-title{color:#b4c8de;font-size:11px;margin-bottom:12px;font-weight:650;line-height:1.5}
+.v4-official-title small{font-size:10px;color:#8b9db2;margin-left:7px}
+.v4-office-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.v4-office-grid a{display:flex;flex-direction:column;gap:5px;padding:10px;border:1px solid #304257;border-radius:7px;background:#172337;color:#e8f2ff;text-decoration:none;min-width:0}
+.v4-office-grid a:hover{border-color:#526883}
+.v4-office-grid small{color:#98abc0;font-size:10px}
+.v4-office-grid strong{font-size:12px;font-weight:620;overflow-wrap:anywhere}
+.v4-section-label{font-size:13px;font-weight:750;margin-bottom:15px;color:#e6eef8}
+.v4-market-select{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.v4-market-select label{font-size:11px;color:#a5b7ca}
+.v4-market-select select{width:100%;background:#152335!important;color:#e6eff9!important;border:1px solid #3b4b5e!important;border-radius:8px!important;padding:11px!important;font-size:12px!important}
+.gmi-intervals{display:flex;gap:6px!important;margin:10px 0 14px!important}
+.gmi-intervals button{flex:1;background:#1a283a!important;color:#acc0d6!important;border:1px solid #33495e!important;border-radius:7px!important;font-size:11px!important;padding:10px 0!important}
+.gmi-intervals button.active{background:#b87856!important;color:#fff!important;border-color:#b87856!important}
+.gmi-chart{background:#0f1926!important;border:1px solid #36485e!important;border-radius:9px!important;min-height:325px!important;overflow:hidden!important}
+.v4-no-index{background:#132032;border:1px solid #32465e;border-radius:9px;color:#acbdd2;padding:23px;line-height:1.65;font-size:12px}
+.v4-footnote{color:#8c9fb4;font-size:10px;line-height:1.65;margin-top:14px}
+.v4-footnote a{color:#a9ccef}
+.v5-state,.v4-loading{display:flex;align-items:center;gap:9px;min-height:72px;padding:20px;background:#101c2b;border:1px solid #304257;border-radius:9px;font-size:12px;line-height:1.6;color:#bfd0e4}
+/* Macro metrics • exactly six indicators in balanced, clearly outlined cards. */
+.v5-metrics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;min-width:0}
+.v5-metric{background:#131e2d;border:1px solid #34465c;border-radius:10px;min-width:0;padding:14px 13px 8px;overflow:hidden}
+.v5-metric-title{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;min-height:35px}
+.v5-metric-title strong{font-size:11px;line-height:1.55;color:#afc3da;font-weight:700;word-break:keep-all}
+.v5-metric-title span{font-size:10px;color:#748ba4;flex-shrink:0;margin-top:2px}
+.v5-metric-value{font-size:19px;line-height:1.4;font-weight:760;color:#fff;white-space:nowrap;letter-spacing:-.03em;margin:2px 0 6px;font-variant-numeric:tabular-nums}
+.v5-spark{width:100%;max-width:100%;height:105px;display:block}
+.v5-spark-none{font-size:10px;height:105px;display:flex;align-items:center;color:#7c91a8;line-height:1.5}
+.v5-data-attribution{font-size:10px;color:#859eb7;line-height:1.8;padding:15px 3px 0}
+.v5-data-attribution a{color:#abd4f3;text-decoration:none}
+/* News • restore clear boxed sectors, localized content, readable press bylines. */
+.v5-news-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.v5-news-card{background:#121d2d;border:1px solid #33465e;border-radius:10px;padding:15px 15px 4px;min-width:0}
+.v5-news-heading{display:flex;align-items:center;gap:9px;border-bottom:1px solid #2f4359;padding-bottom:11px;margin-bottom:10px}
+.v5-news-heading i{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.v5-news-heading h3{flex:1;margin:0;color:#f2f6fb;font-size:14px;font-weight:720}
+.v5-news-heading span{font-size:10px;border:1px solid #45566e;border-radius:14px;color:#96aeca;padding:2px 8px}
+.v5-news-item{margin-bottom:14px;padding-bottom:13px;border-bottom:1px solid #2b3a4e;min-width:0}
+.v5-news-item:last-child{border-bottom:0}
+.v5-news-source{display:flex;flex-wrap:wrap;gap:5px 10px;font-size:10px;color:#88a3be;margin-bottom:7px}
+.v5-news-item>a{color:#f0f5fc;font-size:12px;line-height:1.65;font-weight:640;text-decoration:none;display:block;overflow-wrap:anywhere}
+.v5-news-item>a:hover{text-decoration:underline}
+.v5-news-item>p{color:#acbdd0;font-size:11px;line-height:1.7;margin:8px 0 0;overflow-wrap:anywhere}
+.v5-news-item .v5-news-impact{color:#d4ba9f}
+.v5-empty{font-size:12px;color:#9baabd;line-height:1.7;margin:6px 0 17px}
+/* News global workspace, high-level relations and country comparison stay dark and boxed. */
+.v4-news-select{background:#172436!important;color:#e6effc!important;border:1px solid #384b61!important;border-radius:8px!important;padding:11px!important}
+.v4-intel-list{display:grid;grid-template-columns:1fr;gap:10px}
+.v4-intel-row{border:1px solid #34485f;border-radius:8px;background:#142133;padding:13px}
+.v4-intel-meta{display:flex;justify-content:space-between;gap:15px;color:#b6a08e;font-size:10px;margin-bottom:8px}
+.v4-intel-meta time{color:#92a8c2}
+.v4-intel-row>a{font-size:12px;font-weight:600;line-height:1.6;color:#e7f1fc;text-decoration:none;display:block;overflow-wrap:anywhere}
+.v4-intel-row small{font-size:10px;color:#a0aec2;display:block;margin-top:7px}
+.v4-compare-current{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}
+.v4-compare-current button{background:#19283a;color:#e3edfa;border:1px solid #3d5067;padding:8px;border-radius:18px}
+.compare-selector{display:block!important;max-height:none!important;overflow:visible!important}
+#v4CompareAdd{display:block;width:min(360px,100%);padding:11px;border-radius:8px;border:1px solid #354c66;color:#e4eef9}
+/* Don’t reintroduce raw browser controls if stylesheet fails to load. */
+#directoryCountries button,#sidebarEvents button{appearance:none}
+@media (max-width:1200px){.v4-country-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){.v4-country-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.v5-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.v4-country-controls{grid-template-columns:1fr}.v4-country-grid{grid-template-columns:1fr}.v4-tabs .drawer-tab{font-size:10px!important}.v4-body{padding:15px 12px}.v5-metrics-grid{grid-template-columns:1fr 1fr;gap:7px}.v5-metric{padding:11px 8px 5px}.v5-metric-value{font-size:15px}.v5-spark{height:88px}.v4-office-grid{grid-template-columns:1fr}}
+@media (max-width:430px){.v5-metrics-grid{grid-template-columns:1fr 1fr}.v4-country{min-height:54px}}

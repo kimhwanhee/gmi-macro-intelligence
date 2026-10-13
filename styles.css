@@ -30,3 +30,4 @@
 @media(max-width:760px){.header-actions{gap:3px!important}.gmi-lang-select{margin-right:4px}.gmi-chart{height:310px}}
 .gmi-country-action,.gmi-event-action{background:none;border:0;color:#d8e7f7;text-align:left;cursor:pointer;padding:0;font-size:11px;line-height:1.5}.gmi-country-action:hover,.gmi-event-action:hover{text-decoration:underline;color:#fff}.gmi-event-action{min-width:190px}.gmi-full-brief{grid-template-columns:repeat(2,minmax(0,1fr))}.gmi-full-brief .gmi-brief-card{min-height:160px}
 @media(max-width:740px){.gmi-full-brief{grid-template-columns:1fr}}
+
