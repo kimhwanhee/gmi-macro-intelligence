@@ -1,0 +1,14 @@
+/* GMI v9: keep the restored navy cards and introduce subtle interactive markers. */
+#v9ForeignMinister{border-top:1px solid #2a3b50;padding-top:11px}
+.v9-minister-row{margin-top:0}
+.v9-minister-row .v6-lead-photo{height:72px}
+.v9-minister-symbol{height:72px;flex:0 0 72px;border-radius:6px;background:#23354b;color:#adc1d6;display:flex;align-items:center;justify-content:center;font-size:25px}
+.v9-spark{overflow:visible;display:block;width:100%;margin-top:3px}
+.v9-spark .v9-grid{stroke:#304055;stroke-width:.7}
+.v9-spark .v9-series-line{stroke:#e69a69;stroke-width:2.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.v9-spark .v9-year-labels{fill:#94a9c2;font-size:9.3px;font-family:Inter,system-ui,sans-serif}
+.v9-spark .v9-spot{cursor:crosshair;outline:none}
+.v9-spark .v9-spot:focus{stroke:#fff;stroke-width:1.2}
+.v9-value-tip{position:fixed;z-index:9999;padding:8px 11px;color:#fff;background:#22374c;border:1px solid #6285a8;border-radius:7px;font:600 12px/1.35 Inter,system-ui,sans-serif;white-space:nowrap;pointer-events:none;transform:translateX(-50%);box-shadow:0 8px 24px #0009;opacity:0;visibility:hidden;transition:opacity .08s ease}
+.v9-value-tip.is-visible{opacity:1;visibility:visible}
+@media(prefers-reduced-motion:reduce){.v9-value-tip{transition:none}}
