@@ -1,72 +1,31 @@
-# GMI v10 — 국가별 시가총액 상위 3개 기업
+# GMI v11 — FMP 없이 공개 기업자료 조회
 
-이번 버전은 기존 v9 서버 복구 버전을 기반으로 합니다. 기존 금융시장 탭의 대표 지수와 TradingView 차트를 **삭제**하고, 국가별 기업 재무 비교 화면으로 대체합니다. 지도·외교·정치·거시경제·뉴스의 기존 기능은 유지합니다.
+## 이번 버전의 변경 사항
 
-## 금융시장 탭에 표시되는 항목
+- `FMP_API_KEY`를 완전히 사용하지 않습니다. 기존 등록된 키를 프로젝트에 둘 필요가 없습니다.
+- 국가별 금융시장 탭은 시총 기록이 **공개적으로 등록된 기업**을 최대 3개 표시합니다.
+- Wikidata `P2226`(시총)와 자료 시점, `P452`(업종), `P249`(주식 심볼) 등을 사용합니다.
+- 가능한 경우 `P2139`(매출), `P2295`(순이익), `P2137`(자기자본)의 날짜/통화가 일치하는 자료로 5년 매출 CAGR 및 연말 자기자본 기준 ROE 근사치를 계산합니다. 5년 매출 기록이나 동일 기간 데이터가 없으면 **미제공**입니다.
+- **Wikidata에는 모든 상장기업의 시가총액과 최신 재무지표가 없습니다. 따라서 화면의 순번은 수집된 표본 내 순서일 뿐, 국가 전체의 시가총액 1~3위를 뜻하지 않습니다.** 2026년 기업 순위·정확한 ROE를 보증하지 않습니다. 역사적 관측값의 날짜를 반드시 확인하세요.
+- 서로 다른 통화의 시총 숫자는 근거 없이 비교·환산하지 않습니다. 변환되지 않은 일부 통화는 조회 결과에서 제외될 수 있습니다.
+- 국가는 Wikidata P17 기준이며 본사 법적 소재지나 거래소 상장국과 일치하지 않을 수 있습니다.
+- 이 버전은 실시간 주가·완전한 순위가 아니라 **공개된 기업 재무 연구용 보조자료**를 제공합니다. 실시간으로 정확한 세계 각국 상위 3개 상장기업이 필요하다면 국가별 공식 거래소 명단+금융 데이터 재배포 라이선스가 필요합니다.
 
-- 해당 국가에 **본사를 둔** 상장기업의 데이터 제공처 시가총액 상위 최대 3개
-- 기업 이름·티커·섹터·시가총액
-- 최근 5개 회계연도의 **매출 성장률(CAGR)**: 비교 가능한 연도 기준 5년 간격의 연간 매출로 계산
-- **ROE (TTM)**: 최근 12개월 자기자본이익률
-- 발표된 기간·데이터 확인일·출처
-- 한국어 / 영어 / 중국어 UI 및 섹터 이름 번역
+## 배포
 
-**주의:** 이는 국가 증권거래소에 상장된 3대 기업이 아니라 *본사 소재 국가 기준*입니다. 일부 국가·지역은 데이터 제공처의 커버리지, API 사용 권한 또는 상장기업 부재로 결과가 없을 수 있습니다. 시가총액 통화는 데이터 제공처에서 확인해야 합니다. 5년 간격의 매출이 없으면 CAGR을 임의로 만들지 않고 미제공으로 표시합니다. 은행·지주회사에는 매출 CAGR이 일반 기업과 동일하게 해석되지 않을 수 있습니다.
+1. ZIP을 풀어 GitHub `kimhwanhee/gmi-macro-intelligence` 저장소의 **최상위**에 파일 전체를 업로드합니다. Dockerfile이 꼭 최상위에 있어야 합니다.
+2. Commit changes 후 Railway가 재배포되고 ACTIVE인지 확인하세요.
+3. `https://humorous-vibrancy-production-727e.up.railway.app/api/top-companies?country=CHN` 에서 상태를 확인합니다.
+4. `status: loading`은 Wikidata 공개 자료를 백그라운드에서 조회 중임을 뜻합니다. 자료가 있으면 `partial_coverage`, 없으면 `no_coverage`, 접속 실패 시 `source_unavailable` 또는 `source_rate_limited`를 반환합니다.
+5. Railway의 `FMP_API_KEY`는 이 버전에서 사용하지 않습니다. 삭제는 선택 사항입니다. OpenAI 및 다른 변수는 유지하세요.
 
-## Railway 설정 (중요)
+## 성능 및 운영 주의사항
 
-글로벌 주식·재무정보는 **Financial Modeling Prep (FMP)**의 별도 API 서비스를 이용합니다. ChatGPT 구독과는 별도이며 FMP 요금제에 따라 해외 기업/과거 재무자료를 이용할 수 없을 수 있습니다.
+- 최초 국가 조회는 Wikidata 공개 SPARQL 응답을 기다려야 하며 느릴 수 있습니다. 서버는 즉시 loading을 반환하고 작업이 끝나면 캐시합니다.
+- 성공 결과는 24시간, 자료 없음·외부 오류는 20분 캐시합니다. 사용자 강제 새로고침은 나라별 2분 간격 제한입니다.
+- Wikidata 사용 정책 및 요청 제한을 지키기 위해 동시 요청은 최대 2개입니다. 빈번한 대량 자동 수집을 목적으로 설계하지 않았습니다.
+- Railway Volume(`/data`)에 기존 데이터와 함께 성공한 조회 결과를 저장합니다. DB를 삭제하지 마세요.
+- 연결이 끊겨도 이전에 성공한 데이터가 있으면 보존해 화면에 표시합니다.
+- 의회/정치/뉴스/거시경제 모듈은 기존 버전을 유지했습니다.
 
-1. FMP에서 계정을 만들고 해당 요금제의 글로벌 스크리너·연간 손익계산서·TTM key metrics 사용 권한을 확인합니다: <https://site.financialmodelingprep.com/developer/docs/stable/search-company-screener>
-2. Railway의 기존 `humorous-vibrancy` 서비스 → **Variables**에서 새 변수 추가
-   - 이름: `FMP_API_KEY`
-   - 값: 사용자 본인의 FMP API 키
-3. 변수 적용 뒤 자동 재배포 또는 Redeploy를 수행합니다.
-4. 예시 확인: `https://<실제-도메인>/api/top-companies?country=JPN` (실제 도메인을 넣기)
-5. 응답의 `status`가 `loading`이면 새 데이터가 수집 중이며, 화면은 자동으로 재조회합니다. `ok`면 결과가 준비된 것입니다.
-
-**절대로 `.env`, API 키, 결제 정보를 GitHub 저장소에 올리지 마세요.** FMP 키는 서버에서만 사용합니다. 키가 없으면 가짜 기업 데이터를 표시하지 않고 연결 설정 안내를 표시합니다.
-
-## 기존 GitHub + Railway 업데이트 방법
-
-1. ZIP을 압축 해제합니다.
-2. 저장소 <https://github.com/kimhwanhee/gmi-macro-intelligence>의 루트에서 **Add file → Upload files**를 누릅니다.
-3. 폴더 자체가 아니라 **폴더 안의 모든 배포 파일**을 업로드하고 Commit changes를 누릅니다.
-4. Railway Deployments에서 최신 배포가 **Active** 상태인지 확인합니다.
-5. 기존 사이트에서 **Ctrl+Shift+R** 새로고침 후 국가를 클릭하고 금융시장 탭을 확인합니다.
-
-새 프로젝트나 새 도메인을 만들 필요는 없습니다. Railway 앱은 기존 서버가 정상적으로 시작되어야 작동합니다.
-
-## 테스트 내용과 한계
-
-- 백엔드 단위 테스트: 기업 정보 없는 상태, 가상의 역순 스크리너 결과 정렬, ETF 제외, CAGR 계산, ROE 변환 통과
-- Python 컴파일 및 JavaScript 구문 검사 통과
-- 공개 모드에서 `/api/health` 및 `/api/top-companies?country=JPN`의 HTTP 응답 확인
-- 내부 `companies_data.py`에 대한 URL 접근 차단 확인
-- 브라우저의 모의 응답 테스트: 기업 3개 카드 표시, 다국어 제목, TradingView iframe 0개, JS 오류 0개
-- **실제 FMP API 키 없이 최신 기업별 실데이터 호출은 검증하지 못했습니다.** FMP API 구독 권한과 시장·기업별 커버리지는 별도로 검증해야 합니다.
-
-## 참고 데이터 정의
-
-- 시가총액: 제공처 `company-screener`의 `marketCap`
-- 기업 분류: 제공처의 `sector` / `industry`
-- 5년 매출 CAGR: `((마지막 FY revenue / 5년 전 FY revenue)^(1/5) - 1) × 100`. 양 끝 두 연도에 매출액이 있어야 계산합니다.
-- ROE: `key-metrics-ttm`의 `returnOnEquityTTM × 100`
-- 서버 캐시: 조회 성공 시 12시간 기준, 실패 시 이전 데이터(있을 때) 유지
-
-
-## v10.1 · 금융 데이터 오류 진단
-
-- `configuration_required`: Railway 실행 환경에 FMP_API_KEY가 비어 있습니다.
-- `provider_auth_rejected` (HTTP 401): 제공처가 인증을 거절했습니다.
-- `provider_access_denied` (HTTP 402/403): 해당 API 접근 권한 또는 요금제 제한 가능성이 있습니다.
-- `provider_rate_limited` (HTTP 429): 제공처 사용량 한도입니다.
-- `provider_connection_failed`: 서버에서 FMP로 접속할 수 없습니다.
-- `provider_bad_request` (HTTP 400): API 매개변수 형식을 확인해야 합니다.
-- `provider_unavailable`: 다른 제공처 오류 또는 서버 측 예외입니다.
-
-직접 확인: `/api/top-companies?country=CHN` 경로의 status를 확인하세요.
-`upstream_http_status`는 숫자 HTTP 코드이며, API 키·요청 URL·제공처 응답 원문은 공개 API 또는 로그에 남기지 않습니다.
-
-'정보 새로고침'은 실패 캐시를 새로 가져올 수 있으며, 남용 방지를 위해 국가별 2분 내 재요청은 제한됩니다.
-GitHub에 ZIP 안의 파일들을 루트에 업로드하고 Commit한 후, Railway의 새 배포를 확인하세요.
+공식 자료: https://www.wikidata.org/wiki/Wikidata:Data_access · https://www.wikidata.org/wiki/Property:P2226

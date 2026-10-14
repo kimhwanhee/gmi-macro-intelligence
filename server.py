@@ -138,7 +138,7 @@ class Handler(SimpleHTTPRequestHandler):
             if u.path=='/api/brief':return self.send_json(research_api.brief(c,parse_qs(u.query).get('lang',['ko'])[0]))
             return self.send_json(research_api.diplomacy(c))
         if u.path=='/api/health':
-            return self.send_json({'status':'ok','public_mode':PUBLIC_MODE,'data_sources':{'macro':'World Bank','news':'GDELT DOC 2.0'},'note':'External APIs require Internet access.'})
+            return self.send_json({'status':'ok','public_mode':PUBLIC_MODE,'data_sources':{'macro':'World Bank','news':'GDELT DOC 2.0','companies':'Wikidata public (non-exhaustive, historical)'},'note':'External APIs require Internet access.'})
         if u.path=='/api/worldbank':
             q=parse_qs(u.query)
             country=q.get('country',[''])[0].upper().strip()

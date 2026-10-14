@@ -24,3 +24,8 @@
 .v10-retry{margin:10px 0 0;display:block;background:#233448;border:1px solid #435d78;color:#e8f0f9;padding:7px 11px;border-radius:6px;cursor:pointer;font:inherit;font-size:11px;}
 .v10-retry:hover{background:#2b435d;}
 @media(max-width:530px){.v10-company{padding:12px}.v10-cap{font-size:11px;max-width:80px}.v10-company-top{grid-template-columns:22px minmax(0,1fr) auto;gap:7px;}}
+/* v11 sourced historical disclosures */
+.v11-observation{color:#95b1ca;font-size:10px;margin-top:9px;padding-left:34px;line-height:1.65}
+.v11-observation a{color:#e7a47b;text-decoration:none}
+.v11-observation a:hover{text-decoration:underline}
+.v10-company-foot p{margin:8px 0 0}
