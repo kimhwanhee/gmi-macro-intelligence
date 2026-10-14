@@ -53,3 +53,20 @@
 - 5년 매출 CAGR: `((마지막 FY revenue / 5년 전 FY revenue)^(1/5) - 1) × 100`. 양 끝 두 연도에 매출액이 있어야 계산합니다.
 - ROE: `key-metrics-ttm`의 `returnOnEquityTTM × 100`
 - 서버 캐시: 조회 성공 시 12시간 기준, 실패 시 이전 데이터(있을 때) 유지
+
+
+## v10.1 · 금융 데이터 오류 진단
+
+- `configuration_required`: Railway 실행 환경에 FMP_API_KEY가 비어 있습니다.
+- `provider_auth_rejected` (HTTP 401): 제공처가 인증을 거절했습니다.
+- `provider_access_denied` (HTTP 402/403): 해당 API 접근 권한 또는 요금제 제한 가능성이 있습니다.
+- `provider_rate_limited` (HTTP 429): 제공처 사용량 한도입니다.
+- `provider_connection_failed`: 서버에서 FMP로 접속할 수 없습니다.
+- `provider_bad_request` (HTTP 400): API 매개변수 형식을 확인해야 합니다.
+- `provider_unavailable`: 다른 제공처 오류 또는 서버 측 예외입니다.
+
+직접 확인: `/api/top-companies?country=CHN` 경로의 status를 확인하세요.
+`upstream_http_status`는 숫자 HTTP 코드이며, API 키·요청 URL·제공처 응답 원문은 공개 API 또는 로그에 남기지 않습니다.
+
+'정보 새로고침'은 실패 캐시를 새로 가져올 수 있으며, 남용 방지를 위해 국가별 2분 내 재요청은 제한됩니다.
+GitHub에 ZIP 안의 파일들을 루트에 업로드하고 Commit한 후, Railway의 새 배포를 확인하세요.

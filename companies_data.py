@@ -10,6 +10,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
+import logging
 from pathlib import Path
 import json, math, os, threading, time, re
 import research_api
@@ -25,6 +27,16 @@ LOCK=threading.RLock()
 TTL=12*3600
 MAX_PAGES=8
 PAGE_SIZE=1000
+LAST_FORCE={}
+FORCE_COOLDOWN=120  # Prevent anonymous clients from exhausting paid API quotas.
+LOGGER=logging.getLogger("gmi.companies")
+
+class ProviderError(Exception):
+    def __init__(self, kind, http_status=None):
+        super().__init__(kind)
+        self.kind=kind
+        self.http_status=http_status
+
 
 
 def numeric(x):
@@ -38,13 +50,25 @@ def numeric(x):
 def request(endpoint,key,params):
     url='https://financialmodelingprep.com/stable/'+endpoint+'?'+urlencode({**params,'apikey':key})
     req=Request(url,headers={'User-Agent':'GMI-GlobalMacroIntelligence/1.0','Accept':'application/json'})
-    with urlopen(req,timeout=14) as r:
-        raw=r.read(6_000_000)
-    data=json.loads(raw.decode('utf-8','replace'))
-    if isinstance(data,dict) and any(k in data for k in ('Error Message','error','Error Message:')):
-        raise RuntimeError('provider_rejected_request')
+    try:
+        with urlopen(req,timeout=14) as r:
+            raw=r.read(6_000_000)
+    except HTTPError as exc:
+        category=('provider_auth_rejected' if exc.code == 401 else
+                  'provider_access_denied' if exc.code in (402,403) else
+                  'provider_rate_limited' if exc.code == 429 else
+                  'provider_bad_request' if exc.code == 400 else
+                  'provider_unavailable')
+        # Never log response bodies or URLs: they can contain the API key.
+        raise ProviderError(category, exc.code) from None
+    except (URLError,TimeoutError,OSError):
+        raise ProviderError('provider_connection_failed') from None
+    try:data=json.loads(raw.decode('utf-8','replace'))
+    except (ValueError,UnicodeError):raise ProviderError('provider_invalid_response') from None
+    if isinstance(data,dict) and any(k in data for k in ('Error Message','error','Error Message:','message')):
+        raise ProviderError('provider_rejected_request')
     if not isinstance(data,list):
-        raise RuntimeError('provider_unexpected_response')
+        raise ProviderError('provider_invalid_response')
     return data
 
 
@@ -142,16 +166,20 @@ def refresh(iso,key):
         value=fetch_country(iso,key)
         # Preserve historical successful data if a provider returns a temporary error.
         research_api._put('country_companies:'+iso,value)
-    except Exception:
+    except Exception as exc:
+        kind=exc.kind if isinstance(exc,ProviderError) else 'provider_unavailable'
+        status=exc.http_status if isinstance(exc,ProviderError) else None
+        LOGGER.warning('FMP company request for ISO %s failed: %s (HTTP %s)',iso,kind,status or 'n/a')
         old=research_api._get('country_companies:'+iso)
         if not old or old[1].get('status')!='ok':
-            research_api._put('country_companies:'+iso,{'country':iso,'status':'provider_unavailable','companies':[],
-                'updated_at':datetime.now(timezone.utc).isoformat()})
+            research_api._put('country_companies:'+iso,{'country':iso,'status':kind,'companies':[],
+                'upstream_http_status':status,'updated_at':datetime.now(timezone.utc).isoformat(),
+                'provider':'Financial Modeling Prep'})
     finally:
         with LOCK:JOBS.discard(iso)
 
 
-def get(iso):
+def get(iso,force=False):
     if iso not in COUNTRIES:return {'status':'invalid_country','companies':[]}
     key=os.getenv('FMP_API_KEY','').strip()
     cached=research_api._get('country_companies:'+iso)
@@ -159,12 +187,19 @@ def get(iso):
         return {'country':iso,'status':'configuration_required','companies':[],
                 'message':'Set FMP_API_KEY on the server to retrieve licensed company fundamentals.',
                 'sources':SOURCES}
-    should_refresh=not cached or time.time()-cached[0]>(TTL if cached[1].get('status')=='ok' else 1800)
+    now=time.time()
+    should_refresh=not cached or now-cached[0]>(TTL if cached[1].get('status')=='ok' else 90)
     with LOCK:
+        if force and now-LAST_FORCE.get(iso,0)>=FORCE_COOLDOWN:
+            LAST_FORCE[iso]=now
+            should_refresh=True
         if should_refresh and iso not in JOBS:
             JOBS.add(iso)
             POOL.submit(refresh,iso,key)
         loading=iso in JOBS
     if cached:
-        return {**cached[1], 'loading':loading, 'stale':(time.time()-cached[0]>TTL)}
+        result={**cached[1], 'loading':loading, 'stale':(now-cached[0]>TTL)}
+        if loading and result.get('status')!='ok':
+            result['status']='loading'
+        return result
     return {'country':iso,'status':'loading','loading':True,'companies':[], 'sources':SOURCES}

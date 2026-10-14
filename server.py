@@ -91,7 +91,7 @@ class Handler(SimpleHTTPRequestHandler):
         if u.path=='/api/top-companies':
             c=parse_qs(u.query).get('country',[''])[0].upper()
             if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
-            return self.send_json(companies_data.get(c))
+            return self.send_json(companies_data.get(c,force=parse_qs(u.query).get('refresh',['0'])[0]=='1'))
         if u.path=='/api/fx':
             return self.send_json(fx_data.get())
         if u.path=='/api/intel/status':
