@@ -1,0 +1,26 @@
+/* Compact comparison module aligned with the site's original dark editorial cards. */
+.v10-companies{padding:2px 0 18px;color:#e7eef9;font-family:inherit;}
+.v10-title{margin:8px 0 17px;}
+.v10-kicker{font-weight:700;font-size:10px;line-height:1.5;font-family:inherit;letter-spacing:2px;color:#98afc8;margin-bottom:9px;}
+.v10-title h3{font-weight:720;letter-spacing:-.02em;font-size:16px;margin:0 0 7px;}
+.v10-title p{font-size:11px;line-height:1.6;color:#96a8bb;margin:0;}
+.v10-company-list{display:grid;gap:11px;}
+.v10-company{background:#152334;border:1px solid #344963;border-radius:9px;padding:14px 15px 13px;}
+.v10-company-top{display:grid;grid-template-columns:26px minmax(0,1fr) auto;column-gap:10px;align-items:start;}
+.v10-number{font-size:13px;font-weight:800;color:#e6a16f;padding-top:1px;letter-spacing:.03em;}
+.v10-company-name{min-width:0;}
+.v10-company-name strong{display:block;font-size:13px;font-weight:700;overflow-wrap:anywhere;line-height:1.35;}
+.v10-company-name small{display:block;font-size:10px;line-height:1.6;color:#9caec3;margin-top:5px;}
+.v10-cap{font-size:12px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums;color:#e8ecf3;max-width:100px;text-align:right;}
+.v10-stats{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #2b3a4c;margin-top:11px;padding-top:12px;gap:12px;}
+.v10-stats>div{display:grid;gap:3px;min-width:0;}
+.v10-stats>div+div{border-left:1px solid #2b3a4c;padding-left:12px;}
+.v10-stats span{font-size:10px;color:#9caec3;}
+.v10-stats strong{font-size:16px;color:#f2f5fa;font-weight:750;letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+.v10-stats small{font-size:10px;color:#7489a2;}
+.v10-company-foot,.v10-meta{line-height:1.65;font-size:10px;color:#8497ab;margin-top:14px;}
+.v10-company-foot{padding-left:3px;}
+.v10-state{padding:21px 13px;border:1px dashed #344960;border-radius:8px;color:#b4c3d4;font-size:12px;line-height:1.65;}
+.v10-retry{margin:10px 0 0;display:block;background:#233448;border:1px solid #435d78;color:#e8f0f9;padding:7px 11px;border-radius:6px;cursor:pointer;font:inherit;font-size:11px;}
+.v10-retry:hover{background:#2b435d;}
+@media(max-width:530px){.v10-company{padding:12px}.v10-cap{font-size:11px;max-width:80px}.v10-company-top{grid-template-columns:22px minmax(0,1fr) auto;gap:7px;}}

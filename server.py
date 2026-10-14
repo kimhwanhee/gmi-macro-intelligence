@@ -14,12 +14,13 @@ import macro_data
 import political_data
 import fx_data
 import foreign_minister_data
+import companies_data
 
 ROOT=Path(__file__).resolve().parent
 PUBLIC_MODE = os.getenv('GMI_PUBLIC_MODE', '0').strip() == '1'
 ADMIN_TOKEN = os.getenv('GMI_ADMIN_TOKEN','').strip()
 # Public deployments must never serve arbitrary project files (including source, env, database).
-PUBLIC_ASSETS = {'/','/index.html','/styles.css','/app.js','/country-catalog.js','/enhancements.js','/refinements.js','/v5-repair.js','/v5-repair.css','/v6-fix.js','/v6-fix.css','/v7-politics.js','/v7-politics.css','/v8-intelligence.js','/v8-intelligence.css','/v9-interactions.js','/v9-interactions.css'}
+PUBLIC_ASSETS = {'/','/index.html','/styles.css','/app.js','/country-catalog.js','/enhancements.js','/refinements.js','/v5-repair.js','/v5-repair.css','/v6-fix.js','/v6-fix.css','/v7-politics.js','/v7-politics.css','/v8-intelligence.js','/v8-intelligence.css','/v9-interactions.js','/v9-interactions.css','/v10-companies.js','/v10-companies.css'}
 CACHE={}
 
 # ISO 3166-1 country/territory directory, plus Kosovo.
@@ -87,6 +88,10 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         u=urlparse(self.path)
+        if u.path=='/api/top-companies':
+            c=parse_qs(u.query).get('country',[''])[0].upper()
+            if c not in CATALOG:return self.send_json({'error':'Invalid country'},400)
+            return self.send_json(companies_data.get(c))
         if u.path=='/api/fx':
             return self.send_json(fx_data.get())
         if u.path=='/api/intel/status':
